@@ -1,5 +1,8 @@
 package game;
 
+import handler.KeyHandler;
+import handler.MouseHandler;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,6 +19,13 @@ public class RobotCanvas extends Canvas implements Runnable {
 	{
 		setSize(width,height);
 		running = true;
+		
+		mouseHandler = new MouseHandler(this);
+		keyHandler = new KeyHandler(this);
+		
+		addMouseListener(mouseHandler);
+		addMouseMotionListener(mouseHandler);
+		addKeyListener(keyHandler);
 	}
 	
 	public void tick()
@@ -62,4 +72,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	 * Variables
 	 */
 	private boolean running = false;
+	
+	private KeyHandler keyHandler;
+	private MouseHandler mouseHandler;
 }
