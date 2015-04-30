@@ -33,6 +33,7 @@ public class RobotFrame extends JFrame {
 
 	public static void main(String[] args) {
 		System.out.println("finally figured it out");
+		System.out.println("ME TOO!");
 	}
 
 }
