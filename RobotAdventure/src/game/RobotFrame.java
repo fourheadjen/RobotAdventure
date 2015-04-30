@@ -1,8 +1,5 @@
 package game;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
-
 import javax.swing.JFrame;
 
 public class RobotFrame extends JFrame {
@@ -12,28 +9,40 @@ public class RobotFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 9039879089105886906L;
 
-	public RobotFrame() throws HeadlessException {
-		// TODO Auto-generated constructor stub
+	public RobotFrame() {
+		super(GAME_NAME);
+		setSize(GAME_WIDTH,GAME_HEIGHT);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setFocusable(false); //so we can just click and press on canvas
+		init();
 	}
-
-	public RobotFrame(GraphicsConfiguration arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	public RobotFrame(String arg0) throws HeadlessException {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	public RobotFrame(String arg0, GraphicsConfiguration arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
+	
+	public void init()
+	{
+		robotCanvas = new RobotCanvas(GAME_WIDTH, GAME_HEIGHT);
+		
+		add(robotCanvas);
+		
+		gameloop = new Thread(robotCanvas);
+		gameloop.start();
 	}
 
 	public static void main(String[] args) {
-		System.out.println("finally figured it out");
-		System.out.println("ME TOO!");
+		new RobotFrame().setVisible(true);
 	}
 
+	/*
+	 * Variables
+	 */
+	
+	private RobotCanvas robotCanvas;
+	private Thread gameloop;
+	
+	public static final int GAME_WIDTH = 16 << 6;
+	public static final int GAME_HEIGHT = 9 << 6;
+	public static final String GAME_NAME = "Robot Adventure";
+	
+	
 }
