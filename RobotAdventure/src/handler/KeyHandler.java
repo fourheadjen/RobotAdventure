@@ -19,7 +19,6 @@ public class KeyHandler implements KeyListener {
 		
 		int keyCode = e.getKeyCode();
 		char keyChar = e.getKeyChar();
-		
 	}
 
 	@Override
