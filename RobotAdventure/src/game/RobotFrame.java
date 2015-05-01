@@ -16,6 +16,7 @@ public class RobotFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setFocusable(false); //so we can just click and press on canvas
+		setResizable(false);
 		init();
 	}
 	
