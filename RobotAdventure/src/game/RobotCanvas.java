@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import state.GameStateManager;
+
 public class RobotCanvas extends Canvas implements Runnable {
 
 	/**
@@ -26,11 +28,15 @@ public class RobotCanvas extends Canvas implements Runnable {
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
 		addKeyListener(keyHandler);
+		
+		manager = new GameStateManager(this);
 	}
 	
 	public void tick()
 	{
 		//TODO: Update things here.
+		manager.tick();
+		x++;
 		
 	}
 	
@@ -50,6 +56,9 @@ public class RobotCanvas extends Canvas implements Runnable {
 		g.fillRect(0, 0, RobotFrame.GAME_WIDTH, RobotFrame.GAME_HEIGHT);
 		
 		//TODO: Draw stuff here	
+		manager.render(g);
+		g.setColor(Color.blue);
+		g.drawRect(x, y, 10, 10);
 		
 		g.dispose();
 		bs.show();
@@ -62,21 +71,52 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		while(running)
 		{
-			if(gameTimer.getElapsedTime() > 30)
+			if(!gamePaused)
 			{
-				tick();
-				gameTimer.restart();
+				if(gameTimer.getElapsedTime() > 30)
+				{
+					tick();
+					gameTimer.restart();
+				}
+				render();
 			}
-			
-			render();
 		}
+	}
+	
+	/*
+	 * getters / setters
+	 */
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public GameStateManager getManager() {
+		return manager;
+	}
+	
+	public boolean isGamePaused() {
+		return gamePaused;
+	}
+
+	public void setGamePaused(boolean gamePaused) {
+		this.gamePaused = gamePaused;
 	}
 	
 	/*
 	 * Variables
 	 */
+	
+	
+
 	private boolean running = false;
+	private boolean gamePaused = false;
 	
 	private KeyHandler keyHandler;
 	private MouseHandler mouseHandler;
+	
+	private GameStateManager manager;
 }
