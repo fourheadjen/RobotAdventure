@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import state.STATE;
+
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
 	private Point mouse;
@@ -46,6 +48,29 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 
+		Point p = e.getPoint();
+		
+		switch(canvasReference.getManager().getCurrentState())
+		{
+		case MENU:
+			
+			if(e.getButton() == MouseEvent.BUTTON1) //LEFT MOUSE BUTTON
+			{
+				System.out.println("MENU SCREEN CLICKED W/ LEFT MOUSE");
+			}
+			else if(e.getButton() == MouseEvent.BUTTON3)
+			{
+				System.out.println("MENU SCREEN CLICKED W/ RIGHT MOUSE");
+			}
+			
+			break;
+		case GAMEPLAY:
+			
+			System.out.println("GAMEPLAY SCREEN CLICKED");
+			
+			break;
+		}
+		
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import game.RobotCanvas;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class GameStateManager { //<Extend GameClass interface in utilites package>
+public class GameStateManager {
 
 	private RobotCanvas canvasReference;
 	private ArrayList<GameState> gameStates;
@@ -14,21 +14,35 @@ public class GameStateManager { //<Extend GameClass interface in utilites packag
 	public GameStateManager(RobotCanvas ref)
 	{
 		canvasReference = ref;
+		gameStates = new ArrayList<GameState>();
+		gameStates.add(new Menu(STATE.MENU));
+		currentState = STATE.MENU;
+	}
+	
+	public void tick()
+	{
+		if(currentState.ordinal() < gameStates.size() && gameStates.get(currentState.ordinal()) != null)
+			gameStates.get(currentState.ordinal()).tick();
+	}
+	
+	public void render(Graphics g)
+	{
+		if(currentState.ordinal() < gameStates.size() && gameStates.get(currentState.ordinal()) != null)
+			gameStates.get(currentState.ordinal()).render(g);
+	}
+
+	
+	
+	/*
+	 * Getters / Setters
+	 */
+	public STATE getCurrentState() {
+		return currentState;
 	}
 	
 	public void setCurrentState(STATE state)
 	{
 		currentState = state;
-	}
-	
-	public void tick()
-	{
-		
-	}
-	
-	public void render(Graphics g)
-	{
-		gameStates.get(currentState.ordinal()).render(g);
 	}
 	
 }
