@@ -28,7 +28,6 @@ public class RobotFrame extends JFrame {
 		robotCanvas = new RobotCanvas(GAME_WIDTH,GAME_HEIGHT);
 		
 		add(robotCanvas);
-		
 		gameloop = new Thread(robotCanvas);
 		gameloop.start();
 	}

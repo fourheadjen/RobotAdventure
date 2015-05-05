@@ -39,7 +39,7 @@ public class RobotFont {
 		drawString(text, g, x, y, 1, 1);
 	}
 	
-	public static void drawString(String text, Graphics g, int x, int y, int xScale, int yScale)
+	public static void drawString(String text, Graphics g, int x, int y, double xScale, double yScale)
 	{
 		text = text.toUpperCase();
 		int length = text.length();
@@ -49,8 +49,8 @@ public class RobotFont {
 			int index = characters.indexOf(c);
 			if(index < 0) continue;
 			
-			g.drawImage(fontMap[index / 29][index % 29],x,y,xScale*fontWidth,yScale*fontHeight,null);
-			x+=(fontWidth * xScale);
+			g.drawImage(fontMap[index / 29][index % 29],x,y,(int)(xScale*fontWidth),(int)(yScale*fontHeight),null);
+			x+=(int)(fontWidth * xScale);
 		}
 	}
 	
