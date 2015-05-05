@@ -1,5 +1,8 @@
 package game;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 
 public class RobotFrame extends JFrame {
@@ -11,7 +14,7 @@ public class RobotFrame extends JFrame {
 
 	public RobotFrame() {
 		super(GAME_NAME);
-		setSize(GAME_WIDTH,GAME_HEIGHT);
+		setSize(GAME_SIZE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -22,7 +25,7 @@ public class RobotFrame extends JFrame {
 	
 	public void init()
 	{
-		robotCanvas = new RobotCanvas(GAME_WIDTH, GAME_HEIGHT);
+		robotCanvas = new RobotCanvas(GAME_WIDTH,GAME_HEIGHT);
 		
 		add(robotCanvas);
 		
@@ -41,8 +44,10 @@ public class RobotFrame extends JFrame {
 	private RobotCanvas robotCanvas;
 	private Thread gameloop;
 	
-	public static final int GAME_WIDTH = 16 << 6;
-	public static final int GAME_HEIGHT = 9 << 6;
+	public static final Dimension GAME_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	public static final int GAME_WIDTH = GAME_SIZE.width;
+	public static final int GAME_HEIGHT = GAME_SIZE.height;
+	
 	public static final String GAME_NAME = "Robot Adventure";
 	
 	
