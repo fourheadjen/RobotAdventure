@@ -36,11 +36,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	{
 		//TODO: Update things here.
 		manager.tick();
-		x++;
-		
 	}
-	
-	private int x = 2, y = 2;
 	
 	public void render()
 	{
@@ -57,8 +53,6 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		//TODO: Draw stuff here	
 		manager.render(g);
-		g.setColor(Color.blue);
-		g.drawRect(x, y, 10, 10);
 		
 		g.dispose();
 		bs.show();
