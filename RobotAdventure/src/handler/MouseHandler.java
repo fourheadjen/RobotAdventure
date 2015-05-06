@@ -1,13 +1,13 @@
 package handler;
 
 import game.RobotCanvas;
+import game.RobotFrame;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import state.STATE;
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
@@ -61,8 +61,24 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			else if(e.getButton() == MouseEvent.BUTTON3)
 			{
 				System.out.println("MENU SCREEN CLICKED W/ RIGHT MOUSE");
+			}else if(e.getButton()==MouseEvent.BUTTON2) //MIDDLE MOUSE BUTTON
+			{
+				System.out.println("RESIZING WINDOW... (TEMP)");
+				if(canvasReference.getRobotFrameReference().getSize().equals(RobotFrame.GAME_SIZE))
+				{
+					canvasReference.getRobotFrameReference().setSize(new Dimension(16<<6,9<<6));
+					canvasReference.setSize(16<<6, 9<<6);
+					System.out.println("TEST");
+				}else
+				{
+					canvasReference.getRobotFrameReference().setSize(RobotFrame.GAME_SIZE);
+					canvasReference.setSize(RobotFrame.GAME_SIZE);
+					System.out.println("TEST2");
+				}
+				canvasReference.getRobotFrameReference().setLocationRelativeTo(null);
+				
+				canvasReference.getRobotFrameReference().updateDimension();
 			}
-			
 			break;
 		case GAMEPLAY:
 			

@@ -54,7 +54,7 @@ public class RobotFont {
 		}
 	}
 	
-	public static void drawStringOverlapped(String text, Graphics g, int x, int y, int xScale, int yScale)
+	public static void drawStringOverlapped(String text, Graphics g, int x, int y, double xScale, double yScale)
 	{
 		text = text.toUpperCase();
 		int length = text.length();
@@ -64,8 +64,8 @@ public class RobotFont {
 			int index = characters.indexOf(c);
 			if(index < 0) continue;
 			
-			g.drawImage(fontMap[index / 29][index % 29],x,y,xScale*fontWidth,yScale*fontHeight,null);
-			x+=(fontWidth * xScale) - (xScale * 2);
+			g.drawImage(fontMap[index / 29][index % 29],x,y,(int)(xScale*fontWidth),(int)(yScale*fontHeight),null);
+			x+=(int)(fontWidth * xScale) - (xScale * 2);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class RobotFont {
 		drawStringOverlapped(text, g, x, y, 1, 1);
 	}
 	
-	public static void drawStringOverlapped(String text, Graphics g, int x, int y, int xScale,int yScale, int xPixels)
+	public static void drawStringOverlapped(String text, Graphics g, int x, int y, double xScale,double yScale, int xPixels)
 	{
 		text = text.toUpperCase();
 		int length = text.length();
@@ -84,8 +84,8 @@ public class RobotFont {
 			int index = characters.indexOf(c);
 			if(index < 0) continue;
 			
-			g.drawImage(fontMap[index / 29][index % 29],x,y,xScale*fontWidth,yScale*fontHeight,null);
-			x+=(fontWidth * xScale) - (xScale * 2) - (xPixels * xScale);
+			g.drawImage(fontMap[index / 29][index % 29],x,y,(int)(xScale*fontWidth),(int)(yScale*fontHeight),null);
+			x+=(int)(fontWidth * xScale) - (xScale * 2) - (xPixels * xScale);
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class RobotFont {
 		drawStringReversed(text, g, x, y, 1, 1);
 	}
 	
-	public static void drawStringReversed(String text, Graphics g, int x, int y, int xScale, int yScale)
+	public static void drawStringReversed(String text, Graphics g, int x, int y, double xScale, double yScale)
 	{
 		text = new StringBuffer(text).reverse().toString();
 		drawString(text, g, x, y,xScale,yScale);
@@ -105,13 +105,12 @@ public class RobotFont {
 		drawMultiLineString(text, g, x, y,1,1,alignment);
 	}
 	
-	public static void drawMultiLineString(String text, Graphics g, int x, int y, int xScale, int yScale, int alignment)
+	public static void drawMultiLineString(String text, Graphics g, int x, int y, double xScale, double yScale, int alignment)
 	{
 		text = text.toUpperCase();
 		int length = text.length();
 		int temp = x;
 		int lineCount = 0;
-		
 		String[] words = text.split("\n");
 		
 		for(int i = 0; i < length; i++)
@@ -139,12 +138,12 @@ public class RobotFont {
 			}
 			if(index < 0) continue; 
 			
-			g.drawImage(fontMap[index / 29][index % 29],x,y,xScale*fontWidth,yScale*fontHeight,null);
-			x+=(fontWidth * xScale);
+			g.drawImage(fontMap[index / 29][index % 29],x,y,(int)(xScale*fontWidth),(int)(yScale*fontHeight),null);
+			x+=(int)(fontWidth * xScale);
 		}
 	}
 	
-	public static void drawCirclularString(String text, Graphics g, int centerX, int centerY,int xScale, int yScale,int circleWidth,int circleHeight )
+	public static void drawCirclularString(String text, Graphics g, int centerX, int centerY,double xScale, double yScale,int circleWidth,int circleHeight )
 	{
 		
 		int degree = 230;
@@ -162,7 +161,7 @@ public class RobotFont {
 			int index = characters.indexOf(c);
 			if(index < 0) continue;
 			
-			g.drawImage(fontMap[index / 29][index % 29],x,y,xScale*fontWidth,yScale*fontHeight,null);
+			g.drawImage(fontMap[index / 29][index % 29],x,y,(int)(xScale*fontWidth),(int)(yScale*fontHeight),null);
 			
 			degree+=15;
 			x = (int)(fontWidth * circleWidth * Math.cos( Math.toRadians(degree) ) + centerX);
