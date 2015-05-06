@@ -87,12 +87,12 @@ public class RobotCanvas extends Canvas implements Runnable {
 		{
 			if(!gamePaused)
 			{
-				if(gameTimer.getElapsedTime() > 30)
+				if(gameTimer.getElapsedTime() > MILLISECOND_STEP)
 				{
 					tick();
 					gameTimer.restart();
+					render();
 				}
-				render();
 			}
 		}
 	}
@@ -134,6 +134,9 @@ public class RobotCanvas extends Canvas implements Runnable {
 	private boolean first = true;
 	
 	private BufferedImage buffer;
+	
+	public static final double TIME_STEP=.016667;
+	public static final int MILLISECOND_STEP=(int) (TIME_STEP*1000);
 
 	public static final int BUFFER_WIDTH = 16<<6;
 	public static final int BUFFER_HEIGHT = 9<<6;
