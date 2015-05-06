@@ -10,35 +10,35 @@ public class Vector {
 		this.y=y;
 	}
 	
-	public static Vector vectorAdd(Vector a,Vector b)
+	public Vector vectorAdd(Vector a)
 	{
-		return new Vector(a.x+b.x,a.y+b.y);
+		return new Vector(x+a.x,y+a.y);
 	}
 	
-	public static Vector vectorSub(Vector a,Vector b)
+	public Vector vectorSub(Vector a)
 	{
-		return new Vector(a.x-b.x,a.y-b.y);
+		return new Vector(x-a.x,y-a.y);
 	}
 	
-	public static Vector vectorMult(Vector a,double scalar)
+	public Vector vectorScale(double scalar)
 	{
-		return new Vector(a.x*scalar,a.y*scalar);
+		return new Vector(x*scalar,y*scalar);
 	}
 	
-	public static double vectotDot(Vector a,Vector b)
+	public double vectotDot(Vector a)
 	{
-		return (a.x*b.x)+(a.y*b.y);
+		return (x*a.x)+(y*a.y);
 	}
 	
-	public static double vectorCross(Vector a,Vector b)
+	public double vectorCross(Vector a)
 	{
-		return (a.x*b.y-a.y*b.x);
+		return (x*a.y-y*a.x);
 	}
 	
-	public static Vector vectorRotate(Vector a,double degrees,Vector axis)
+	public Vector vectorRotate(double degrees,Vector axis)
 	{
-		double x=a.x-axis.x;
-		double y=a.y-axis.y;
+		double x=this.x-axis.x;
+		double y=this.y-axis.y;
 		
 		double cs=Math.cos(Math.toRadians(degrees));
 		double sn=Math.sin(Math.toRadians(degrees));
