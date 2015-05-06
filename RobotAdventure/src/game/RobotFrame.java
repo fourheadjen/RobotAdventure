@@ -50,9 +50,12 @@ public class RobotFrame extends JFrame {
 	private RobotCanvas robotCanvas;
 	private Thread gameloop;
 	
-	public static final Dimension GAME_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	public static final Dimension GAME_WINDOWED_SIZE = new Dimension(16<<6,9<<6);
+	public static final Dimension GAME_FULLSCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	public static Dimension GAME_SIZE = GAME_WINDOWED_SIZE;
 	public static int GAME_WIDTH = GAME_SIZE.width;
 	public static int GAME_HEIGHT = GAME_SIZE.height;
+	
 	
 	public static final String GAME_NAME = "Robot Adventure";
 	

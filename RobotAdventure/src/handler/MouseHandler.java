@@ -64,19 +64,18 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			}else if(e.getButton()==MouseEvent.BUTTON2) //MIDDLE MOUSE BUTTON
 			{
 				System.out.println("RESIZING WINDOW... (TEMP)");
-				if(canvasReference.getRobotFrameReference().getSize().equals(RobotFrame.GAME_SIZE))
+				if(canvasReference.getRobotFrameReference().getSize().equals(RobotFrame.GAME_FULLSCREEN_SIZE))
 				{
-					canvasReference.getRobotFrameReference().setSize(new Dimension(16<<6,9<<6));
-					canvasReference.setSize(16<<6, 9<<6);
-					System.out.println("TEST");
+					canvasReference.getRobotFrameReference().setSize(RobotFrame.GAME_WINDOWED_SIZE);
+					RobotFrame.GAME_SIZE = RobotFrame.GAME_WINDOWED_SIZE;
+					canvasReference.setSize(RobotFrame.GAME_WINDOWED_SIZE);
 				}else
 				{
-					canvasReference.getRobotFrameReference().setSize(RobotFrame.GAME_SIZE);
-					canvasReference.setSize(RobotFrame.GAME_SIZE);
-					System.out.println("TEST2");
+					canvasReference.getRobotFrameReference().setSize(RobotFrame.GAME_FULLSCREEN_SIZE);
+					RobotFrame.GAME_SIZE = RobotFrame.GAME_FULLSCREEN_SIZE;
+					canvasReference.setSize(RobotFrame.GAME_FULLSCREEN_SIZE);
 				}
 				canvasReference.getRobotFrameReference().setLocationRelativeTo(null);
-				
 				canvasReference.getRobotFrameReference().updateDimension();
 			}
 			break;
