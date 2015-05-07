@@ -22,7 +22,7 @@ public class Vector {
 	
 	public Vector vectorScale(double scalar)
 	{
-		return new Vector(x*scalar,y*scalar);
+		return new Vector((x*scalar),(y*scalar));
 	}
 	
 	public double vectotDot(Vector a)
@@ -44,6 +44,16 @@ public class Vector {
 		double sn=Math.sin(Math.toRadians(degrees));
 		
 		return new Vector(x*cs-y*sn,x*sn+y*cs);
+	}
+	
+	public int X()
+	{
+		return (int)Math.round(x);
+	}
+	
+	public int Y()
+	{
+		return (int)Math.round(y);
 	}
 
 }

@@ -1,8 +1,9 @@
 package entity;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import engine.Rect;
 
 public abstract class Sprite {
 
@@ -16,17 +17,19 @@ public abstract class Sprite {
 							OPTION_WIDTH = 2,
 							OPTION_HEIGHT = 3;
 	
-	private Rectangle bounds;
-	private ArrayList<Rectangle> collisionBoundsList;
+	protected Rect bounds;
+	private ArrayList<Rect> collisionBoundsList;//uhhh
+	
+	
 	
 	public Sprite(int x, int y, int width, int height)
 	{
-		bounds = new Rectangle(x,y,width,height);
-		collisionBoundsList = new ArrayList<Rectangle>();
+		bounds = new Rect(x,y,width,height);
+		collisionBoundsList = new ArrayList<Rect>();
 		collisionBoundsList.add(bounds);
 	}
 	
-	public void addCollisionBounds(Rectangle rect)
+	public void addCollisionBounds(Rect rect)
 	{
 		if(!collisionBoundsList.contains(rect))
 			collisionBoundsList.add(rect);
@@ -35,7 +38,7 @@ public abstract class Sprite {
 	public abstract void render(Graphics g);
 	public abstract void tick();
 	
-	public boolean collidesWith(Sprite sprite)
+	/*public boolean collidesWith(Sprite sprite)
 	{
 		for(int i = 0; i < collisionBoundsList.size(); i++)
 		{
@@ -71,9 +74,9 @@ public abstract class Sprite {
 			bounds.height = value;
 			break;
 		}
-	}
+	}*/
 	
-	public void updateBounds(int index, Rectangle rectangle)
+	public void updateBounds(int index, Rect rectangle)
 	{
 		if(index >= collisionBoundsList.size())
 			return;
