@@ -138,8 +138,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private BufferedImage buffer;
 	
-	public static final double TIME_STEP=.016667;
-	public static final int MILLISECOND_STEP=(int) (TIME_STEP*1000);
+	public static final double timeStep=.016667;
+	public static final int MILLISECOND_STEP=(int) (timeStep*1000);
 
 	public static final int BUFFER_WIDTH = 16<<6;
 	public static final int BUFFER_HEIGHT = 9<<6;
@@ -149,6 +149,11 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	public static double xRatio;
 	public static double yRatio;
+	
+	public static final double playerWeight=30;
+	public static final double playerDragC=1;
+	
+	public static final double boxDragC=.9;
 	
 	private boolean running = false;
 	private boolean gamePaused = false;
@@ -160,5 +165,5 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private RobotFrame robotFrameReference;
 	
-	private PhysicsSprite testBox=new PhysicsSprite(0, 100, 50, 50, null, new Vector(5,-5), 50, 0, 1.05);
+	private PhysicsSprite testBox=new PhysicsSprite(500,10, 100, 50, 30, null, null, 50, 1.05);
 }

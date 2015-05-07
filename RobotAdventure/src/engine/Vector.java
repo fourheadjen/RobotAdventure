@@ -37,13 +37,15 @@ public class Vector {
 	
 	public Vector vectorRotate(double degrees,Vector axis)
 	{
-		double x=this.x-axis.x;
-		double y=this.y-axis.y;
+		double tempX=this.x-axis.x;
+		double tempY=this.y-axis.y;
+		
+		System.out.println(tempX+" "+tempY);
 		
 		double cs=Math.cos(Math.toRadians(degrees));
 		double sn=Math.sin(Math.toRadians(degrees));
 		
-		return new Vector(x*cs-y*sn,x*sn+y*cs);
+		return new Vector(tempX*cs-tempY*sn+axis.x,tempX*sn+tempY*cs+axis.y);
 	}
 	
 	public int X()
