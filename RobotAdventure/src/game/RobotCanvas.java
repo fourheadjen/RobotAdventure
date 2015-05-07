@@ -6,11 +6,12 @@ import handler.MouseHandler;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import state.GameStateManager;
+import engine.Vector;
+import entity.PhysicsSprite;
 
 public class RobotCanvas extends Canvas implements Runnable {
 
@@ -45,6 +46,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	{
 		//TODO: Update things here.
 		manager.tick();
+		testBox.tick();
 		
 		if(first)
 		{
@@ -69,6 +71,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 		b.fillRect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
 		//TODO: Draw stuff here	
 		manager.render(b);
+		testBox.render(b);
 		
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(buffer, 0, 0,RobotFrame.GAME_WIDTH, RobotFrame.GAME_HEIGHT, null);
@@ -156,4 +159,6 @@ public class RobotCanvas extends Canvas implements Runnable {
 	private GameStateManager manager;
 	
 	private RobotFrame robotFrameReference;
+	
+	private PhysicsSprite testBox=new PhysicsSprite(0, 100, 50, 50, null, new Vector(5,-5), 50, 0, 1.05);
 }
