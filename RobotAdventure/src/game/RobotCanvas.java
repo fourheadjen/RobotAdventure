@@ -10,9 +10,11 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import state.GameStateManager;
+import utilities.RobotFont;
 import engine.Vector;
 import entity.PhysicsPoly;
 import entity.PhysicsRect;
+import entity.PhysicsTriangle;
 
 public class RobotCanvas extends Canvas implements Runnable {
 
@@ -37,8 +39,10 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		buffer = new BufferedImage(BUFFER_WIDTH,BUFFER_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		
-		xRatio = (double)RobotFrame.GAME_WIDTH/BUFFER_WIDTH;
-		yRatio = (double)RobotFrame.GAME_HEIGHT/BUFFER_HEIGHT;
+		xRatio = ((double)RobotFrame.GAME_FULLSCREEN_SIZE.width)/BUFFER_WIDTH;
+		yRatio = ((double)RobotFrame.GAME_FULLSCREEN_SIZE.height)/BUFFER_HEIGHT;
+		
+		System.out.println("Xr: " + xRatio + " Yr: " + yRatio);
 		
 		this.robotFrameReference = frameRef;
 	}
@@ -48,7 +52,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 		//TODO: Update things here.
 		manager.tick();
 		testBox.tick();
-		
+		testTriangle.tick();
+	
 		if(first)
 		{
 			first = !first;
@@ -73,9 +78,12 @@ public class RobotCanvas extends Canvas implements Runnable {
 		//TODO: Draw stuff here	
 		manager.render(b);
 		testBox.render(b);
+		testTriangle.render(b);
 		
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(buffer, 0, 0,RobotFrame.GAME_WIDTH, RobotFrame.GAME_HEIGHT, null);
+		
+		RobotFont.drawString("(" + mouseHandler.getMouse().x + "," + mouseHandler.getMouse().y + ")",g,mouseHandler.getMouse().x+8,mouseHandler.getMouse().y-8);
 		
 		b.dispose();
 		g.dispose();
@@ -166,6 +174,9 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private RobotFrame robotFrameReference;
 	
-	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 50, 30, null, 10, 50, 1.05);
-	private PhysicsPoly testBox=new PhysicsPoly(new int[]{100,100,200},new int[]{100,200,200},30, new Vector(2,-2), 5, 50, 1.05);
+	private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
+	private PhysicsPoly testTriangle=new PhysicsTriangle(new int[]{100,200,100},new int[]{100,150,150},30, new Vector(.5,-2), 5, 50, 1.05);
+	
+	
+	
 }

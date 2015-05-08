@@ -3,15 +3,17 @@ package handler;
 import game.RobotCanvas;
 import game.RobotFrame;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import state.Menu;
+import button.FauxButton;
+
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
-	private Point mouse;
+	public static Point mouse;
 	private RobotCanvas canvasReference;
 	
 	public MouseHandler(RobotCanvas reference)
@@ -56,7 +58,32 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			
 			if(e.getButton() == MouseEvent.BUTTON1) //LEFT MOUSE BUTTON
 			{
-				System.out.println("MENU SCREEN CLICKED W/ LEFT MOUSE");
+				//System.out.println("MENU SCREEN CLICKED W/ LEFT MOUSE");
+				
+				Menu menu = (Menu)canvasReference.getManager().getCurrentGameState();
+				
+				FauxButton button = menu.getSelectedButton();
+				
+				if(button != null)
+				{
+					//System.out.println(button);
+					
+					switch(button.getID())
+					{
+					case STARTGAME:
+						break;
+					case HOW_TO_PLAY:
+						break;
+					case SETTINGS:
+						
+						break;
+					case EXIT:
+						System.exit(0);
+						break;
+					}
+					
+				}
+				
 			}
 			else if(e.getButton() == MouseEvent.BUTTON3)
 			{
