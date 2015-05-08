@@ -4,6 +4,12 @@ public class Vector {
 	
 	private double x,y;
 
+	public Vector()
+	{
+		this.x=0;
+		this.y=0;
+	}
+	
 	public Vector(double x,double y)
 	{
 		this.x=x;
@@ -35,15 +41,17 @@ public class Vector {
 		return (x*a.y-y*a.x);
 	}
 	
-	public Vector vectorRotate(double degrees,Vector axis)
+	public Vector vectorRotate(double degrees,Vector axis)//take another look at this to simplify the vector math
 	{
-		double x=this.x-axis.x;
-		double y=this.y-axis.y;
+		double tempX=this.x-axis.x;
+		double tempY=this.y-axis.y;
+		
+		//System.out.println(tempX+" "+tempY);
 		
 		double cs=Math.cos(Math.toRadians(degrees));
 		double sn=Math.sin(Math.toRadians(degrees));
 		
-		return new Vector(x*cs-y*sn,x*sn+y*cs);
+		return new Vector(tempX*cs-tempY*sn+axis.x,tempX*sn+tempY*cs+axis.y);
 	}
 	
 	public int X()
