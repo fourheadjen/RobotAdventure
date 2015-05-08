@@ -59,7 +59,7 @@ public class PhysicsPoly extends Polygon
 		//calculate the forces on the object
 		Vector netForce=new Vector(0,(int)(mass*5));// force of gravity
 		netForce=netForce.vectorSub(velocity.vectorScale(1.225*.5*dragC*super.getArea(false)));//force of drag
-		System.out.println(super.getCenter().X());
+		//System.out.println(super.getCenter().X());
 		//netForce=netForce.vectorSub(velocity.vectorScale(dampingC));//force of damping
 		
 		//check collision here and apply any needed forces??? or adjust momentum instead but less accurate

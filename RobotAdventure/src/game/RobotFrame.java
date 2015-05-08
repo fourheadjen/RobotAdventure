@@ -27,7 +27,7 @@ public class RobotFrame extends JFrame {
 	{
 		robotCanvas = new RobotCanvas(GAME_WIDTH,GAME_HEIGHT,this);
 		System.out.println(GAME_SIZE);
-		System.out.println(Toolkit.getDefaultToolkit().getScreenResolution());
+		System.out.println(Toolkit.getDefaultToolkit().getScreenSize());
 		add(robotCanvas);
 		gameloop = new Thread(robotCanvas);
 		gameloop.start();
@@ -45,6 +45,11 @@ public class RobotFrame extends JFrame {
 	{
 		GAME_WIDTH = (int) getSize().getWidth();
 		GAME_HEIGHT = (int) getSize().getHeight();
+	}
+	
+	public static boolean isMaximized()
+	{
+		return GAME_SIZE == GAME_FULLSCREEN_SIZE;
 	}
 	
 	private RobotCanvas robotCanvas;

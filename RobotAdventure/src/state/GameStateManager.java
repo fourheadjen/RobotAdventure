@@ -45,4 +45,8 @@ public class GameStateManager {
 		currentState = state;
 	}
 	
+	public GameState getCurrentGameState(){
+		return gameStates.get(currentState.ordinal());
+	}
+	
 }
