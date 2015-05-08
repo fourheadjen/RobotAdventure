@@ -11,7 +11,8 @@ import java.awt.image.BufferedImage;
 
 import state.GameStateManager;
 import engine.Vector;
-import entity.PhysicsSprite;
+import entity.PhysicsPoly;
+import entity.PhysicsRect;
 
 public class RobotCanvas extends Canvas implements Runnable {
 
@@ -165,5 +166,6 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private RobotFrame robotFrameReference;
 	
-	private PhysicsSprite testBox=new PhysicsSprite(500,10, 100, 50, 30, null, null, 50, 1.05);
+	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 50, 30, null, 10, 50, 1.05);
+	private PhysicsPoly testBox=new PhysicsPoly(new int[]{100,100,200},new int[]{100,200,200},30, new Vector(2,-2), 5, 50, 1.05);
 }

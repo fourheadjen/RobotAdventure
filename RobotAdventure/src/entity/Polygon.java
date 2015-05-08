@@ -1,33 +1,38 @@
-package engine;
+package entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.security.SignatureException;
+
+import engine.Vector;
 
 
 public class Polygon
 {
 	
 	private double theta=0;
+	private double area=-1;
 	
 	private Vector[] corners;
 
-	public Polygon(int x,int y,int width,int height,double theta)
+	/*public Polygon(int x,int y,int width,int height,double theta)
 	{	
 		corners=new Vector[4];
 		corners[0]=new Vector(x,y);
 		corners[1]=new Vector(x+width,y);
 		corners[2]=new Vector(x+width,y+height);
 		corners[3]=new Vector(x,y+height);
-		rotate(theta);
-	}
+		getArea(true);
+		rotate(theta,null);
+	}*/
 	
 	public Polygon(int[] xPoints,int[] yPoints,double theta)
 	{
 		corners=new Vector[xPoints.length];
 		for(int i=0;i<xPoints.length;i++)
 			corners[i]=new Vector(xPoints[i],yPoints[i]);
-		rotate(theta);
+		getArea(true);
+		rotate(theta,null);
 	}
 	
 	public Vector getCenter()//uses the summation equation for finding the centroid of a non-self-intersecting closed polygon
@@ -52,17 +57,42 @@ public class Polygon
 		centroid=centroid.vectorScale(1.0/(6*signedArea));
 		
 		//System.out.println(centroid.X()+" "+centroid.Y());
-		return centroid;
+		//for(int i=0;i<corners.length;i++)
+			//centroid=centroid.vectorAdd(corners[i]);
+		return centroid;//.vectorScale(1.0/corners.length);
 	}
 	
-	public void rotate(double angle)
+	public double getInertia()
 	{
-		this.theta+=angle;
-		Vector center=this.getCenter();
-		System.out.println(center.X()+"-"+center.Y());
+		double inertia=0;
+		
+		double numer=0;
+		double denom=0;
+		double scale=0;
+		double mag;
+		for(int n=0;n<corners.length-1;n++)
+		{
+			//scale=
+		}
+		return 0;
+	}
+	
+	public void rotate(double angle,Vector[] points)
+	{
+		Vector axis=new Vector();
+		if(points==null)
+		{
+			this.theta+=angle;
+			axis=this.getCenter();
+		}
+		else
+		{
+			//set axis
+		}
+		//System.out.println(center.X()+"-"+center.Y());
 		
 		for(int i=0;i<corners.length;i++)
-			corners[i]=corners[i].vectorRotate(angle, center);
+			corners[i]=corners[i].vectorRotate(angle, axis);
 	}
 	
 	public void move(Vector pos)
@@ -73,7 +103,7 @@ public class Polygon
 		}
 	}
 	
-	public void drawRect(Graphics g)
+	public void draw(Graphics g)
 	{
 		g.setColor(Color.BLACK);
 		int i=0;
@@ -82,10 +112,22 @@ public class Polygon
 		g.drawLine(corners[i].X(), corners[i].Y(), corners[0].X(), corners[0].Y());
 	}
 	
-	public double area()
+	public double getArea(boolean calc)
 	{
-		//return width*height/100;//meters to centimeters
-		return 0;//fix for all polygons
+		//area of polygon: A=(.5)((x0*y1+x1*y2+x2*y0)-(y0*x1+y1*x2+y2*x0))
+		if(!calc&&area!=-1)
+			return area;
+		double sum=0;
+		int i=0;
+		for(;i<corners.length-1;i++)
+		{
+			sum+=corners[i].X()*corners[i+1].Y();
+			sum-=corners[i].Y()*corners[i+1].X();
+		}
+		sum+=corners[i].X()*corners[0].Y();
+		sum-=corners[i].Y()*corners[0].X();
+		area=sum/200;
+		return area;
 	}
 
 }
