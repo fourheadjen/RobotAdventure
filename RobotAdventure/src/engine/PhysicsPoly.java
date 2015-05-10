@@ -1,8 +1,7 @@
-package entity;
+package engine;
 
 import java.awt.Graphics;
 
-import engine.Vector;
 import game.RobotCanvas;
 
 public class PhysicsPoly extends Polygon
@@ -57,7 +56,7 @@ public class PhysicsPoly extends Polygon
 		super.move(velocity.vectorScale(RobotCanvas.timeStep).vectorAdd(acceleration.vectorScale(Math.pow(RobotCanvas.timeStep, 2)*.5)).vectorScale(100));//last scale makes the meters per pixel into centimeters per pixel
 		
 		//calculate the forces on the object
-		Vector netForce=new Vector(0,(int)(mass*5));// force of gravity
+		Vector netForce=new Vector(0,(int)(mass*RobotCanvas.gravity));// force of gravity
 		netForce=netForce.vectorSub(velocity.vectorScale(1.225*.5*dragC*super.getArea(false)));//force of drag
 		//System.out.println(super.getCenter().X());
 		//netForce=netForce.vectorSub(velocity.vectorScale(dampingC));//force of damping
@@ -66,6 +65,7 @@ public class PhysicsPoly extends Polygon
 		
 		//rotation??
 		super.rotate(torque,null);
+		super.getInertiaRelativeToCentroid();
 		
 		//Verlet integration finished
 		Vector new_acceleration=netForce.vectorScale(1/mass);

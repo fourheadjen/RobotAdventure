@@ -1,14 +1,12 @@
 package state;
 
 import game.RobotCanvas;
-import handler.AudioHandler.SOUND;
 import handler.MouseHandler;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
-
-import javax.swing.event.MenuListener;
 
 import utilities.RobotFont;
 import button.BUTTONID;
@@ -50,8 +48,7 @@ public class Menu extends GameState {
 				button.render(g);
 				if(button.isMouseOver(MouseHandler.mouse))
 				{
-					g.setColor(new Color(100,100,100,100));
-					g.fillRect(button.getX(), button.getY(), button.getWidth(), button.getHeight());
+					g.drawImage(overlay,button.getX(), button.getY(), button.getWidth(), button.getHeight(),null);
 				}
 			}
 		}
@@ -118,6 +115,8 @@ public class Menu extends GameState {
 	{
 		return menuPageList.get(currentPage);
 	}
+	
+	private Image overlay=RobotImageLoader.OVERLAY_IMAGE;
 	
 	private ArrayList<FauxButton> buttonList;
 	private ArrayList<MenuPage> menuPageList;

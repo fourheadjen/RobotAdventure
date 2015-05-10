@@ -13,6 +13,7 @@ public class RobotImageLoader {
 	/*
 	 * Button Images
 	 */
+	public static final Image OVERLAY_IMAGE = Utility.loadImage(button + "overlay_button.png");
 	public static final Image START_GAME_IMAGE = Utility.loadImage(button + "start_button.png");
 	public static final Image HOW_TO_PLAY_IMAGE = Utility.loadImage(button + "how_to_play_button.png");
 	public static final Image SETTINGS_IMAGE = Utility.loadImage(button + "settings_button.png");
