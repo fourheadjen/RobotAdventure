@@ -73,7 +73,9 @@ public class Polygon
 		//mag=Math.abs(corners[0].vectorLengthCross(corners[i]));
 		//top+=mag*(corners[0].vectotDot(corners[0])+corners[0].vectotDot(corners[i])+corners[i].vectotDot(corners[i]));
 		//bot+=mag;
-		System.out.println(sum/12);
+		
+		//System.out.println(sum/12);
+		
 		return (sum/12);
 	}
 	
