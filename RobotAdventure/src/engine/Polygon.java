@@ -1,10 +1,8 @@
-package entity;
+package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.security.SignatureException;
-
-import engine.Vector;
 
 
 public class Polygon
@@ -62,19 +60,26 @@ public class Polygon
 		return centroid;//.vectorScale(1.0/corners.length);
 	}
 	
-	public double getInertia()
+	public double getInertiaRelativeToCentroid()
 	{
-		double inertia=0;
-		
-		double numer=0;
-		double denom=0;
-		double scale=0;
-		double mag;
-		for(int n=0;n<corners.length-1;n++)
+		double sum=0;
+		int i=0;
+		for(;i<corners.length-1;i++)
 		{
-			//scale=
+			sum+=(corners[i+1].vectorLengthCross(corners[i]))*(corners[i].vectotDot(corners[i])+corners[i+1].vectotDot(corners[i])+corners[i+1].vectotDot(corners[i+1]));
 		}
-		return 0;
+		sum+=(corners[0].vectorLengthCross(corners[i]))*(corners[i].vectotDot(corners[i])+corners[0].vectotDot(corners[i])+corners[0].vectotDot(corners[0]));
+
+		//mag=Math.abs(corners[0].vectorLengthCross(corners[i]));
+		//top+=mag*(corners[0].vectotDot(corners[0])+corners[0].vectotDot(corners[i])+corners[i].vectotDot(corners[i]));
+		//bot+=mag;
+		System.out.println(sum/12);
+		return (sum/12);
+	}
+	
+	public double getInertiaRelativeTo(Vector pointOfAxis)
+	{
+		return getInertiaRelativeToCentroid();
 	}
 	
 	public void rotate(double angle,Vector[] points)
@@ -121,12 +126,15 @@ public class Polygon
 		int i=0;
 		for(;i<corners.length-1;i++)
 		{
-			sum+=corners[i].X()*corners[i+1].Y();
-			sum-=corners[i].Y()*corners[i+1].X();
+			sum+=corners[i].vectorCross(corners[i+1]);
+			//sum+=corners[i].X()*corners[i+1].Y();
+			//sum-=corners[i].Y()*corners[i+1].X();
 		}
-		sum+=corners[i].X()*corners[0].Y();
-		sum-=corners[i].Y()*corners[0].X();
+		sum+=corners[i].vectorCross(corners[0]);
+		//sum+=corners[i].X()*corners[0].Y();
+		//sum-=corners[i].Y()*corners[0].X();
 		area=sum/200;
+		System.out.println(area);
 		return area;
 	}
 

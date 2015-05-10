@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Rectangle;
 
+import engine.PhysicsPoly;
 import engine.Vector;
 
 public class PhysicsRect extends PhysicsPoly {

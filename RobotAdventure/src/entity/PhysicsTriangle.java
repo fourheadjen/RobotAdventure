@@ -1,5 +1,6 @@
 package entity;
 
+import engine.PhysicsPoly;
 import engine.Vector;
 
 public class PhysicsTriangle extends PhysicsPoly {

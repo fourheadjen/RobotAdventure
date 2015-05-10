@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import state.GameStateManager;
 import utilities.RobotFont;
 import engine.Vector;
-import entity.PhysicsPoly;
+import engine.PhysicsPoly;
 import entity.PhysicsRect;
 import entity.PhysicsTriangle;
 
@@ -51,7 +51,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	{
 		//TODO: Update things here.
 		manager.tick();
-		testBox.tick();
+		//testBox.tick();
 		testTriangle.tick();
 	
 		if(first)
@@ -77,7 +77,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 		b.fillRect(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
 		//TODO: Draw stuff here	
 		manager.render(b);
-		testBox.render(b);
+		//testBox.render(b);
 		testTriangle.render(b);
 		
 		Graphics g = bs.getDrawGraphics();
@@ -159,6 +159,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 	public static double xRatio;
 	public static double yRatio;
 	
+	public static final double gravity=10;
+	
 	public static final double playerWeight=30;
 	public static final double playerDragC=1;
 	
@@ -174,7 +176,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private RobotFrame robotFrameReference;
 	
-	private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
+	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
 	private PhysicsPoly testTriangle=new PhysicsTriangle(new int[]{100,200,100},new int[]{100,150,150},30, new Vector(.5,-2), 5, 50, 1.05);
 	
 	

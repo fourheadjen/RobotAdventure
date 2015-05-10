@@ -41,6 +41,11 @@ public class Vector {
 		return (x*a.y-y*a.x);
 	}
 	
+	public double vectorLengthCross(Vector a)
+	{
+		return Math.abs(x*a.y-y*a.x);
+	}
+	
 	public Vector vectorRotate(double degrees,Vector axis)//take another look at this to simplify the vector math
 	{
 		double tempX=this.x-axis.x;
