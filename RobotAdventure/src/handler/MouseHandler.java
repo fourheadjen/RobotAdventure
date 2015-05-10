@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import state.Menu;
+import state.STATE;
 import button.FauxButton;
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
@@ -71,14 +72,15 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 					switch(button.getID())
 					{
 					case STARTGAME:
-						break;
-					case HOW_TO_PLAY:
-						break;
-					case SETTINGS:
+						
+						menu.getGameStateManager().setCurrentState(STATE.GAMEPLAY);
 						
 						break;
 					case EXIT:
 						System.exit(0);
+						break;
+					default: //how to play or settings
+						menu.changePage(button.getID());
 						break;
 					}
 					

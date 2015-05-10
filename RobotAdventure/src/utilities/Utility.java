@@ -24,7 +24,13 @@ public class Utility {
     }
 
     public static AudioClip loadAudio(String name) {
-        return Applet.newAudioClip(Utility.class.getResource("resources/" + name));
+    	try{
+    		return Applet.newAudioClip(Utility.class.getResource("resources/" + name));
+    	}catch(Exception ioException)
+    	{
+	    	JOptionPane.showMessageDialog(null, "Error reading audio file!", "Utility", JOptionPane.ERROR_MESSAGE);
+	    	return null;
+    	}
     }
     
     public static ArrayList<BufferedImage> loadBufferedArray(String img, int xOffset, int yOffset)

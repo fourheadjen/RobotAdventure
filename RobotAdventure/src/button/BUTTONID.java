@@ -5,5 +5,6 @@ public enum BUTTONID {
 	STARTGAME,
 	HOW_TO_PLAY,
 	SETTINGS,
-	EXIT
+	EXIT,
+	BACK
 }
