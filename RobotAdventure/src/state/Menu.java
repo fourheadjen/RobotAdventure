@@ -39,30 +39,54 @@ public class Menu extends GameState {
 		g.setColor(Color.RED);
 		g.fillRect(0, 0, RobotCanvas.BUFFER_WIDTH, RobotCanvas.BUFFER_HEIGHT);
 		
-		if(currentPage == -1)
-		{
-			RobotFont.drawMultiLineString("Robot Adventure\nBy:\nJonathan Collins\nSkylar Donlevy\nJennifer Vu", g, RobotCanvas.X_CENTERED_TEXT, RobotCanvas.Y_BOTTOM_TEXT,RobotFont.CENTER);
-
-			for(FauxButton button : buttonList)
+		if(fading) //Transition
+		{			
+			g.setColor(new Color(0,0,0,fadingTransparency));
+			g.fillRect(fadingX, fadingY, fadingWidth, fadingHeight);
+			
+			fadingX-=4;
+			fadingY-=2;
+			fadingWidth+=8;
+			fadingHeight+=4;
+			fadingTransparency= Math.max(0, fadingTransparency-1);
+			
+			if(fadingWidth >= RobotCanvas.BUFFER_WIDTH && fadingHeight >= RobotCanvas.BUFFER_HEIGHT)
 			{
-				button.render(g);
-				if(button.isMouseOver(MouseHandler.mouse))
-				{
-					g.drawImage(overlay,button.getX(), button.getY(), button.getWidth(), button.getHeight(),null);
-				}
+				fading = false;
+				fadingX = RobotCanvas.BUFFER_WIDTH/2;
+				fadingY = RobotCanvas.BUFFER_HEIGHT/2-20;
+				fadingWidth = 0;
+				fadingHeight = 0;
+				fadingTransparency = 255;
 			}
 		}
 		else
 		{
-			menuPageList.get(currentPage).render(g);
-			FauxButton button = menuPageList.get(currentPage).getBackButton();
-			if(button.isMouseOver(MouseHandler.mouse))
+			if(currentPage == -1)
 			{
-				g.setColor(new Color(100,100,100,100));
-				g.fillRect(button.getX(), button.getY(), button.getWidth(), button.getHeight());
-			
+				RobotFont.drawMultiLineString("Robot Adventure\nBy:\nJonathan Collins\nSkylar Donlevy\nJennifer Vu", g, RobotCanvas.X_CENTERED_TEXT, RobotCanvas.Y_BOTTOM_TEXT,RobotFont.CENTER);
+
+				for(FauxButton button : buttonList)
+				{
+					button.render(g);
+					if(button.isMouseOver(MouseHandler.mouse))
+					{
+						g.drawImage(overlay,button.getX(), button.getY(), button.getWidth(), button.getHeight(),null);
+					}
+				}
 			}
-			
+			else
+			{
+				//System.out.println(currentPage);
+				menuPageList.get(currentPage).render(g);
+				
+				FauxButton button = menuPageList.get(currentPage).getBackButton();
+				if(button.isMouseOver(MouseHandler.mouse))
+				{
+					g.drawImage(overlay,button.getX(), button.getY(), button.getWidth(), button.getHeight(),null);
+				}
+
+			}
 		}
 	}
 	
@@ -109,6 +133,8 @@ public class Menu extends GameState {
 			currentPage = -1;
 			break;
 		}
+		
+		fading = true;
 	}
 	
 	public MenuPage getCurrentPage()
@@ -122,4 +148,8 @@ public class Menu extends GameState {
 	private ArrayList<MenuPage> menuPageList;
 	
 	private int currentPage;
+	
+	private boolean fading = false;
+	private int fadingX = RobotCanvas.BUFFER_WIDTH/2, fadingY = RobotCanvas.BUFFER_HEIGHT/2-20, fadingWidth, fadingHeight;
+	private int fadingTransparency = 255;
 }
