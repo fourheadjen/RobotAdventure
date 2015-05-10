@@ -2,13 +2,16 @@ package handler;
 
 import java.applet.AudioClip;
 
+import constants.RobotAudioLoader;
 import utilities.Utility;
 
 public class AudioHandler {
 
 	private static AudioClip[] gameSounds;
 	
-	private static int numberOfSoundClips = 1;
+	private static int numberOfSoundClips;
+	
+	private AudioHandler(){}
 	
 	public static void playSound(int soundClipIndex)
 	{
@@ -34,11 +37,8 @@ public class AudioHandler {
 		gameSounds[soundClipIndex].stop();
 	}
 	
-	public static void stopAllSound(int soundClipIndex)
+	public static void stopAllSound()
 	{
-		if(soundClipIndex >= gameSounds.length)
-			return;
-		
 		for(int i = 0; i < gameSounds.length; i++)
 		{
 			gameSounds[i].stop();
@@ -47,7 +47,14 @@ public class AudioHandler {
 	
 	static
 	{
+		numberOfSoundClips = RobotAudioLoader.class.getFields().length;
 		gameSounds = new AudioClip[numberOfSoundClips];
-		gameSounds[0] = Utility.loadAudio("audio/music.wav");
+		System.out.println("NUM OF CLIPS: " + numberOfSoundClips);
+		
+	}
+	
+	public enum SOUND
+	{
+		MENU_MUSIC
 	}
 }

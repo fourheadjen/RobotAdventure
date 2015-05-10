@@ -15,7 +15,8 @@ public class GameStateManager {
 	{
 		canvasReference = ref;
 		gameStates = new ArrayList<GameState>();
-		gameStates.add(new Menu(STATE.MENU));
+		gameStates.add(new Menu(STATE.MENU,this));
+		gameStates.add(new Gameplay(STATE.GAMEPLAY,this));
 		currentState = STATE.MENU;
 	}
 	
