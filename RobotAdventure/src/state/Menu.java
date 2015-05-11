@@ -1,6 +1,7 @@
 package state;
 
 import game.RobotCanvas;
+import handler.AudioHandler;
 import handler.MouseHandler;
 
 import java.awt.Color;
@@ -27,6 +28,7 @@ public class Menu extends GameState {
 		menuPageList.add(new HowToPlayPage(MENUPAGEID.HOW_TO_PLAY));
 		menuPageList.add(new SettingPage(MENUPAGEID.SETTINGS));
 		currentPage = -1;
+		AudioHandler.loopSound(0);
 	}
 
 	@Override
