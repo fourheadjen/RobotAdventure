@@ -10,6 +10,7 @@ public class Polygon
 	
 	private double theta=0;
 	private double area=-1;
+	private double inertiaAboutCenter;
 	
 	private Vector[] corners;
 
@@ -29,8 +30,9 @@ public class Polygon
 		corners=new Vector[xPoints.length];
 		for(int i=0;i<xPoints.length;i++)
 			corners[i]=new Vector(xPoints[i],yPoints[i]);
-		getArea(true);
+		recalculateArea();
 		rotate(theta,null);
+		recalculateInertiaRelativeToCentroid();
 	}
 	
 	public Vector getCenter()//uses the summation equation for finding the centroid of a non-self-intersecting closed polygon
@@ -60,28 +62,31 @@ public class Polygon
 		return centroid;//.vectorScale(1.0/corners.length);
 	}
 	
-	public double getInertiaRelativeToCentroid()
+	public void recalculateInertiaRelativeToCentroid()
 	{
-		double sum=0;
+		double mag;
+		double top=0;
+		double bot=0;
 		int i=0;
 		for(;i<corners.length-1;i++)
 		{
-			sum+=(corners[i+1].vectorLengthCross(corners[i]))*(corners[i].vectotDot(corners[i])+corners[i+1].vectotDot(corners[i])+corners[i+1].vectotDot(corners[i+1]));
+			mag=corners[i].vectorSub(corners[0]).vectorLengthCross(corners[i+1].vectorSub(corners[0]));
+			top+=mag*(corners[i].vectorSub(corners[0]).vectotDot(corners[i].vectorSub(corners[0]))+corners[i].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0]))+corners[i+1].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0])));
+			bot+=mag;
 		}
-		sum+=(corners[0].vectorLengthCross(corners[i]))*(corners[i].vectotDot(corners[i])+corners[0].vectotDot(corners[i])+corners[0].vectotDot(corners[0]));
 
-		//mag=Math.abs(corners[0].vectorLengthCross(corners[i]));
+		//mag=(corners[0].vectorCross(corners[i]));
 		//top+=mag*(corners[0].vectotDot(corners[0])+corners[0].vectotDot(corners[i])+corners[i].vectotDot(corners[i]));
 		//bot+=mag;
 		
 		//System.out.println(sum/12);
 		
-		return (sum/12);
+		inertiaAboutCenter=((top/bot)/6000);
 	}
 	
-	public double getInertiaRelativeTo(Vector pointOfAxis)
+	private double getInertiaRelativeTo(Vector pointOfAxis)
 	{
-		return getInertiaRelativeToCentroid();
+		return inertiaAboutCenter;
 	}
 	
 	public void rotate(double angle,Vector[] points)
@@ -119,11 +124,9 @@ public class Polygon
 		g.drawLine(corners[i].X(), corners[i].Y(), corners[0].X(), corners[0].Y());
 	}
 	
-	public double getArea(boolean calc)
+	public void recalculateArea()
 	{
 		//area of polygon: A=(.5)((x0*y1+x1*y2+x2*y0)-(y0*x1+y1*x2+y2*x0))
-		if(!calc&&area!=-1)
-			return area;
 		double sum=0;
 		int i=0;
 		for(;i<corners.length-1;i++)
@@ -136,7 +139,10 @@ public class Polygon
 		//sum+=corners[i].X()*corners[0].Y();
 		//sum-=corners[i].Y()*corners[0].X();
 		area=sum/200;
-		System.out.println(area);
+	}
+	
+	public double getArea()
+	{
 		return area;
 	}
 
