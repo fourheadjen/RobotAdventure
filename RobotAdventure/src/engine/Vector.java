@@ -38,12 +38,12 @@ public class Vector {
 	
 	public double vectorCross(Vector a)
 	{
-		return (x*a.y-y*a.x);
+		return ((x*a.y)-(y*a.x));
 	}
 	
 	public double vectorLengthCross(Vector a)
 	{
-		return Math.abs(x*a.y-y*a.x);
+		return Math.abs((x*a.y)-(y*a.x));
 	}
 	
 	public Vector vectorRotate(double degrees,Vector axis)//take another look at this to simplify the vector math

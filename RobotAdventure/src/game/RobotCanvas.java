@@ -177,7 +177,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	private RobotFrame robotFrameReference;
 	
 	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
-	private PhysicsPoly testTriangle=new PhysicsTriangle(new int[]{100,200,100},new int[]{100,150,150},30, new Vector(.5,-2), 5, 50, 1.05);
+	private PhysicsPoly testTriangle=new PhysicsTriangle(200,200,200,400,400,400,30, null, 5, 50, 1.05);
 	
 	
 	
