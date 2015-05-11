@@ -49,12 +49,16 @@ public class AudioHandler {
 	{
 		numberOfSoundClips = RobotAudioLoader.class.getFields().length;
 		gameSounds = new AudioClip[numberOfSoundClips];
+		gameSounds[0] = RobotAudioLoader.menuMusic;
 		System.out.println("NUM OF CLIPS: " + numberOfSoundClips);
 		
 	}
 	
 	public enum SOUND
 	{
-		MENU_MUSIC
+		MENU_MUSIC,
+		ROBOT_LASER,
+		POWERUP_PICKUP,
+		MENU_SELECT
 	}
 }
