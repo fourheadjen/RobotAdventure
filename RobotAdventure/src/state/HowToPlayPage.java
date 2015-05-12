@@ -20,7 +20,7 @@ public class HowToPlayPage extends MenuPage {
 	@Override
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
-		RobotFont.drawString("How to play goes here!", g, 100, 200);
+		RobotFont.drawString("Click Start Game to begin your robot adventure!", g, 100, 200);
 		back.render(g);
 	}
 
