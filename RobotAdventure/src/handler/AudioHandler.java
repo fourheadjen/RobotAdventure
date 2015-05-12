@@ -1,6 +1,7 @@
 package handler;
 
 import java.applet.AudioClip;
+import java.awt.Toolkit;
 
 import constants.RobotAudioLoader;
 import utilities.Utility;
@@ -8,14 +9,13 @@ import utilities.Utility;
 public class AudioHandler {
 
 	private static AudioClip[] gameSounds;
-	
 	private static int numberOfSoundClips;
 	
 	public static boolean muted;
 	
 	public AudioHandler()
 	{
-		muted = false;
+		muted = true;
 		numberOfSoundClips = RobotAudioLoader.class.getFields().length;
 		gameSounds = new AudioClip[numberOfSoundClips];
 		gameSounds[SOUND.MENU_MUSIC.ordinal()] = RobotAudioLoader.menuMusic;

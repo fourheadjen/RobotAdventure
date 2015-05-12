@@ -14,7 +14,7 @@ public abstract class MenuPage {
 	public MenuPage(MENUPAGEID id)
 	{
 		this.id = id;
-		back = new FauxButton(100,100,300,100,BUTTONID.BACK,RobotImageLoader.BACK_IMAGE);
+		back = new FauxButton(30,400,300,100,BUTTONID.BACK,RobotImageLoader.BACK_IMAGE);
 	}
 	
 	public MENUPAGEID getID()
