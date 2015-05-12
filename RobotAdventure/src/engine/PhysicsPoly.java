@@ -57,7 +57,7 @@ public class PhysicsPoly extends Polygon
 		
 		//calculate the forces on the object
 		Vector netForce=new Vector(0,(int)(mass*RobotCanvas.gravity));// force of gravity
-		netForce=netForce.vectorSub(velocity.vectorScale(1.225*.5*dragC*super.getArea(false)));//force of drag
+		netForce=netForce.vectorSub(velocity.vectorScale(1.225*.5*dragC*super.getArea()));//force of drag
 		//System.out.println(super.getCenter().X());
 		//netForce=netForce.vectorSub(velocity.vectorScale(dampingC));//force of damping
 		
@@ -65,7 +65,8 @@ public class PhysicsPoly extends Polygon
 		
 		//rotation??
 		super.rotate(torque,null);
-		super.getInertiaRelativeToCentroid();
+		//System.out.println(super.getInertiaRelativeToCentroid());
+		//System.out.println(new Vector(2,2).vectorCross(new Vector(2,4)));
 		
 		//Verlet integration finished
 		Vector new_acceleration=netForce.vectorScale(1/mass);
