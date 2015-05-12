@@ -59,6 +59,11 @@ public class Vector {
 		return new Vector(tempX*cs-tempY*sn+axis.x,tempX*sn+tempY*cs+axis.y);
 	}
 	
+	public double vectorDistance(Vector a)
+	{
+		return Math.sqrt(Math.pow(a.x-x, 2)+Math.pow(a.y-y, 2));
+	}
+	
 	public int X()
 	{
 		return (int)Math.round(x);

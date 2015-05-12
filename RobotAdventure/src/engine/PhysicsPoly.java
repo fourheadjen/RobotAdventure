@@ -11,7 +11,7 @@ public class PhysicsPoly extends Polygon
 	private Vector velocity;
 	
 	private double torque;
-	private double omega;
+	private double inertiaAboutCenter;
 	
 	private double mass;
 	private double dampingC;
@@ -39,12 +39,47 @@ public class PhysicsPoly extends Polygon
 		else
 			this.velocity=velocity;
 		this.acceleration=new Vector();
-		this.omega=0;
 		this.torque=torque;
 		this.mass=mass;
 		this.dragC=dragC;
+		calculateInertiaRelativeToCentroid();
 	}
+	
+	public void calculateInertiaRelativeToCentroid()
+	{
+		Vector[] corners=super.getCorners();
+		double mag;
+		double top=0;
+		double bot=0;
+		int i=0;
+		for(;i<corners.length-1;i++)
+		{
+			mag=corners[i].vectorSub(corners[0]).vectorLengthCross(corners[i+1].vectorSub(corners[0]));
+			top+=mag*(corners[i].vectorSub(corners[0]).vectotDot(corners[i].vectorSub(corners[0]))+corners[i].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0]))+corners[i+1].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0])));
+			bot+=mag;
+		}
 
+		//mag=(corners[0].vectorCross(corners[i]));
+		//top+=mag*(corners[0].vectotDot(corners[0])+corners[0].vectotDot(corners[i])+corners[i].vectotDot(corners[i]));
+		//bot+=mag;
+		
+		//System.out.println(sum/12);
+		
+		inertiaAboutCenter=(((top/bot)*mass)/600);
+	}
+	
+	public double getInertiaRelativeTo(Vector pointOfAxis)
+	{
+		if(pointOfAxis==null)
+			return inertiaAboutCenter;
+		return inertiaAboutCenter+(mass*Math.pow(super.getCenter().vectorDistance(pointOfAxis), 2));
+	}
+	
+	public void calculateCollisionForces()
+	{
+		
+	}
+	
 	public void render(Graphics g)
 	{
 		super.draw(g);
@@ -65,7 +100,6 @@ public class PhysicsPoly extends Polygon
 		
 		//rotation??
 		super.rotate(torque,null);
-		//System.out.println(super.getInertiaRelativeToCentroid());
 		//System.out.println(new Vector(2,2).vectorCross(new Vector(2,4)));
 		
 		//Verlet integration finished

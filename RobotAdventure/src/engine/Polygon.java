@@ -10,7 +10,6 @@ public class Polygon
 	
 	private double theta=0;
 	private double area=-1;
-	private double inertiaAboutCenter;
 	
 	private Vector[] corners;
 
@@ -30,9 +29,8 @@ public class Polygon
 		corners=new Vector[xPoints.length];
 		for(int i=0;i<xPoints.length;i++)
 			corners[i]=new Vector(xPoints[i],yPoints[i]);
-		recalculateArea();
+		calculateArea();
 		rotate(theta,null);
-		recalculateInertiaRelativeToCentroid();
 	}
 	
 	public Vector getCenter()//uses the summation equation for finding the centroid of a non-self-intersecting closed polygon
@@ -60,33 +58,6 @@ public class Polygon
 		//for(int i=0;i<corners.length;i++)
 			//centroid=centroid.vectorAdd(corners[i]);
 		return centroid;//.vectorScale(1.0/corners.length);
-	}
-	
-	public void recalculateInertiaRelativeToCentroid()
-	{
-		double mag;
-		double top=0;
-		double bot=0;
-		int i=0;
-		for(;i<corners.length-1;i++)
-		{
-			mag=corners[i].vectorSub(corners[0]).vectorLengthCross(corners[i+1].vectorSub(corners[0]));
-			top+=mag*(corners[i].vectorSub(corners[0]).vectotDot(corners[i].vectorSub(corners[0]))+corners[i].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0]))+corners[i+1].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0])));
-			bot+=mag;
-		}
-
-		//mag=(corners[0].vectorCross(corners[i]));
-		//top+=mag*(corners[0].vectotDot(corners[0])+corners[0].vectotDot(corners[i])+corners[i].vectotDot(corners[i]));
-		//bot+=mag;
-		
-		//System.out.println(sum/12);
-		
-		inertiaAboutCenter=((top/bot)/6000);
-	}
-	
-	private double getInertiaRelativeTo(Vector pointOfAxis)
-	{
-		return inertiaAboutCenter;
 	}
 	
 	public void rotate(double angle,Vector[] points)
@@ -124,7 +95,7 @@ public class Polygon
 		g.drawLine(corners[i].X(), corners[i].Y(), corners[0].X(), corners[0].Y());
 	}
 	
-	public void recalculateArea()
+	public void calculateArea()
 	{
 		//area of polygon: A=(.5)((x0*y1+x1*y2+x2*y0)-(y0*x1+y1*x2+y2*x0))
 		double sum=0;
@@ -144,6 +115,11 @@ public class Polygon
 	public double getArea()
 	{
 		return area;
+	}
+	
+	public Vector[] getCorners()
+	{
+		return corners;
 	}
 
 }
