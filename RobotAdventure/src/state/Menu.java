@@ -48,7 +48,7 @@ public class Menu extends GameState {
 			g.setColor(new Color(0,0,0,fadingTransparency));
 			g.fillRect(0, 0, RobotCanvas.BUFFER_WIDTH, RobotCanvas.BUFFER_HEIGHT);
 			
-			fadingTransparency= Math.max(0, fadingTransparency-10);
+			fadingTransparency= Math.max(0, fadingTransparency-20);
 			
 			if(fadingTransparency == 0)
 			{
@@ -136,6 +136,14 @@ public class Menu extends GameState {
 	public MenuPage getCurrentPage()
 	{
 		return menuPageList.get(currentPage);
+	}
+	
+	public MENUPAGEID getCurrentPageID()
+	{
+		if(currentPage!= -1)
+			return menuPageList.get(currentPage).getID();
+		else 
+			return null;
 	}
 	
 	private Image overlay=RobotImageLoader.OVERLAY_IMAGE;

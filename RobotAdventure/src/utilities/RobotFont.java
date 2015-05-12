@@ -14,7 +14,7 @@ public class RobotFont {
 
 	//Character string must have exact characters as font.png file even include the spaces
 	private static String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ   " +
-									   "0123456789.,!?\"'<>#/{}[]:;   ";
+									   "0123456789.,!?\"'<>#/{}[]:;-+=";
 	private static int fontWidth, fontHeight;
 	private static BufferedImage[][] fontMap;
 	
