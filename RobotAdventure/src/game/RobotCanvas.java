@@ -1,5 +1,6 @@
 package game;
 
+import handler.AudioHandler;
 import handler.KeyHandler;
 import handler.MouseHandler;
 
@@ -30,6 +31,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		mouseHandler = new MouseHandler(this);
 		keyHandler = new KeyHandler(this);
+		audioHandler = new AudioHandler();
 		
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
@@ -171,6 +173,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private KeyHandler keyHandler;
 	private MouseHandler mouseHandler;
+	private AudioHandler audioHandler;
 	
 	private GameStateManager manager;
 	
