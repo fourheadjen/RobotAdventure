@@ -2,6 +2,7 @@ package handler;
 
 import game.RobotCanvas;
 import game.RobotFrame;
+import handler.AudioHandler.SOUND;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -74,12 +75,16 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 					case STARTGAME:
 						
 						menu.getGameStateManager().setCurrentState(STATE.GAMEPLAY);
-						
+						AudioHandler.stopSound(SOUND.MENU_MUSIC);
 						break;
 					case EXIT:
+						AudioHandler.stopAllSound();
+						AudioHandler.playSound(SOUND.EXIT);
+						try{Thread.sleep(3000);}catch(Exception ex){} //lets sound play
 						System.exit(0);
 						break;
 					default: //how to play or settings
+						AudioHandler.playSound(SOUND.MENU_SELECT);
 						menu.changePage(button.getID());
 						break;
 					}

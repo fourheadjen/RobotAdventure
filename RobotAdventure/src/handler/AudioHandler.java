@@ -11,30 +11,41 @@ public class AudioHandler {
 	
 	private static int numberOfSoundClips;
 	
-	private AudioHandler(){}
+	public static boolean muted;
 	
-	public static void playSound(int soundClipIndex)
+	public AudioHandler()
 	{
-		if(soundClipIndex >= gameSounds.length)
+		muted = false;
+		numberOfSoundClips = RobotAudioLoader.class.getFields().length;
+		gameSounds = new AudioClip[numberOfSoundClips];
+		gameSounds[SOUND.MENU_MUSIC.ordinal()] = RobotAudioLoader.menuMusic;
+		gameSounds[SOUND.ROBOT_LASER.ordinal()] = RobotAudioLoader.laserBlast;
+		gameSounds[SOUND.EXIT.ordinal()] = RobotAudioLoader.exit;
+		gameSounds[SOUND.MENU_SELECT.ordinal()] = RobotAudioLoader.select;
+	}
+		
+	public static void playSound(SOUND sound)
+	{
+		if(sound.ordinal() >= gameSounds.length || muted)
 			return;
 		
-		gameSounds[soundClipIndex].play();
+		gameSounds[sound.ordinal()].play();
 	}
 	
-	public static void loopSound(int soundClipIndex)
+	public static void loopSound(SOUND sound)
 	{
-		if(soundClipIndex >= gameSounds.length)
+		if(sound.ordinal() >= gameSounds.length || muted)
 			return;
 		
-		gameSounds[soundClipIndex].loop();
+		gameSounds[sound.ordinal()].loop();
 	}
 	
-	public static void stopSound(int soundClipIndex)
+	public static void stopSound(SOUND sound)
 	{
-		if(soundClipIndex >= gameSounds.length)
+		if(sound.ordinal() >= gameSounds.length)
 			return;
 		
-		gameSounds[soundClipIndex].stop();
+		gameSounds[sound.ordinal()].stop();
 	}
 	
 	public static void stopAllSound()
@@ -45,16 +56,12 @@ public class AudioHandler {
 		}
 	}
 	
-	static
-	{
-		numberOfSoundClips = RobotAudioLoader.class.getFields().length;
-		gameSounds = new AudioClip[numberOfSoundClips];
-		System.out.println("NUM OF CLIPS: " + numberOfSoundClips);
-		
-	}
-	
 	public enum SOUND
 	{
-		MENU_MUSIC
+		MENU_MUSIC,
+		ROBOT_LASER,
+		EXIT,
+		MENU_SELECT,
+		POWERUP_PICKUP
 	}
 }

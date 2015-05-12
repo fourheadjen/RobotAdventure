@@ -1,6 +1,8 @@
 package state;
 
 import game.RobotCanvas;
+import handler.AudioHandler;
+import handler.AudioHandler.SOUND;
 import handler.MouseHandler;
 
 import java.awt.Color;
@@ -27,6 +29,8 @@ public class Menu extends GameState {
 		menuPageList.add(new HowToPlayPage(MENUPAGEID.HOW_TO_PLAY));
 		menuPageList.add(new SettingPage(MENUPAGEID.SETTINGS));
 		currentPage = -1;
+
+		AudioHandler.loopSound(SOUND.MENU_MUSIC);
 	}
 
 	@Override
@@ -42,21 +46,13 @@ public class Menu extends GameState {
 		if(fading) //Transition
 		{			
 			g.setColor(new Color(0,0,0,fadingTransparency));
-			g.fillRect(fadingX, fadingY, fadingWidth, fadingHeight);
+			g.fillRect(0, 0, RobotCanvas.BUFFER_WIDTH, RobotCanvas.BUFFER_HEIGHT);
 			
-			fadingX-=4;
-			fadingY-=2;
-			fadingWidth+=8;
-			fadingHeight+=4;
-			fadingTransparency= Math.max(0, fadingTransparency-1);
+			fadingTransparency= Math.max(0, fadingTransparency-10);
 			
-			if(fadingWidth >= RobotCanvas.BUFFER_WIDTH && fadingHeight >= RobotCanvas.BUFFER_HEIGHT)
+			if(fadingTransparency == 0)
 			{
 				fading = false;
-				fadingX = RobotCanvas.BUFFER_WIDTH/2;
-				fadingY = RobotCanvas.BUFFER_HEIGHT/2-20;
-				fadingWidth = 0;
-				fadingHeight = 0;
 				fadingTransparency = 255;
 			}
 		}
@@ -150,6 +146,5 @@ public class Menu extends GameState {
 	private int currentPage;
 	
 	private boolean fading = false;
-	private int fadingX = RobotCanvas.BUFFER_WIDTH/2, fadingY = RobotCanvas.BUFFER_HEIGHT/2-20, fadingWidth, fadingHeight;
 	private int fadingTransparency = 255;
 }
