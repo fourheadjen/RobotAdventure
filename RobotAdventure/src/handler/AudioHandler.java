@@ -25,8 +25,6 @@ public class AudioHandler {
 	
 	public static boolean muted;
 	
-	
-	
 	public AudioHandler()
 	{
 		muted = false;
@@ -37,9 +35,7 @@ public class AudioHandler {
 		gameSounds[SOUND.EXIT.ordinal()] = RobotAudioLoader.exit;
 		gameSounds[SOUND.MENU_SELECT.ordinal()] = RobotAudioLoader.select;
 		
-		info();
-		//masterOutputLine = getMasterOutputLine();
-		//setVolume(0.0f);
+		init();
 	}
 		
 	public static void playSound(SOUND sound)
@@ -91,155 +87,86 @@ public class AudioHandler {
 	 * @param value (a number between 0 and 1)
 	 */
 	
-	public void info()
-	{try {
-		Mixer.Info[] infos = AudioSystem.getMixerInfo(); 
-        for (Mixer.Info info: infos) 
-        { 
-            Mixer mixer = AudioSystem.getMixer(info); 
-            if (mixer.isLineSupported(Port.Info.SPEAKER)) 
-            { 
-                Port port;
-				
-					port = (Port)mixer.getLine(Port.Info.SPEAKER);
-				
-                port.open(); 
-                if (port.isControlSupported(FloatControl.Type.VOLUME)) 
-                { 
-                    FloatControl volume = (FloatControl)port.getControl(FloatControl.Type.VOLUME); 
-                    System.out.println(info); 
-                    System.out.println("- " + Port.Info.SPEAKER); 
-                    System.out.println("  - " + volume); 
-                    volume.setValue(0.5f);
-                    System.out.println(info); 
-                    System.out.println("- " + Port.Info.SPEAKER); 
-                    System.out.println("  - " + volume); 
-                    
-                } 
-                port.close(); 
-            } 
-        } 
-		} catch (LineUnavailableException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-	}
+	private static ArrayList<Port> speakerPortsWithVolumeControl = new ArrayList<Port>();
 	
-	private static Line masterOutputLine;
-	
-	public static void setVolume(float value)
+	private void init()
 	{
-		if(value < 0 || value > 1)
-			return;
-		Line line = masterOutputLine;
-		if(line == null) return;
-		boolean opened = open(line) || line instanceof Clip;
-		
-		try
-		{
-			FloatControl control = getVolumeControl(line);
-			if(control == null)
-				return;
-			
-			control.setValue(value);
-		}finally
-		{
-			if(opened)line.close();
-		}
-	}
-	
-	private static boolean open(Line line)
-	{
-		if(line.isOpen())return false;
-		try
-		{
-			line.open();
-		}catch(LineUnavailableException ex)
-		{
-			return false;
-		}
-		
-		return true;
-		
-	}
-	
-	private static FloatControl getVolumeControl(Line line)
-	{
-		if(!line.isOpen()) return null;
-		return (FloatControl) findControl(FloatControl.Type.VOLUME, line.getControls());
-	}
-	
-	private static Control findControl(Type type, Control... controls)
-	{
-		if(controls == null || controls.length == 0) return null;
-		for(Control control : controls)
-		{
-			if(control.getType().equals(type)) return control;
-			if(control instanceof CompoundControl)
-			{
-				CompoundControl compoundControl = (CompoundControl) control;
-				Control member = findControl(type,compoundControl.getMemberControls());
-				if(member != null) return member;
-			}
-		}
-		return null;
-	}
-	
-	private static Line getMasterOutputLine() { 
+		try {
+			Mixer.Info[] infos = AudioSystem.getMixerInfo(); 
+			for (Mixer.Info info: infos) 
+			{ 
+				Mixer mixer = AudioSystem.getMixer(info); 
+				if (mixer.isLineSupported(Port.Info.SPEAKER)) 
+				{ 
+					Port port;
 
-		for (Mixer mixer : getMixers()) { 
-			for (Line line : getAvailableOutputLines(mixer)) {
-				System.out.println("line Info: " + line.getLineInfo().toString());
-				if (line.getLineInfo().toString().contains("SPEAKER")) 
-				{
-					System.out.println("FOUND A Clip");
-					return line; 
-				}
+					port = (Port)mixer.getLine(Port.Info.SPEAKER);
+
+					port.open(); 
+					if (port.isControlSupported(FloatControl.Type.VOLUME)) 
+					{ 
+						FloatControl volume = (FloatControl)port.getControl(FloatControl.Type.VOLUME);
+						System.out.println(info); 
+						System.out.println("- " + Port.Info.SPEAKER); 
+						System.out.println("  - " + volume); 
+					
+						if(!speakerPortsWithVolumeControl.contains(port))
+							speakerPortsWithVolumeControl.add(port);
+					} 
+					port.close(); 
+				} 
+				
 			} 
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		} 
-		return null; 
-	} 
+	}
 	
-	private static List<Mixer> getMixers()
+	public static void setVolume(float volumeLevel)
 	{
-		Info[] infos = AudioSystem.getMixerInfo();
-		List<Mixer> mixers = new ArrayList<Mixer>(infos.length);
-		for(Info info : infos)
-		{
-			Mixer mixer = AudioSystem.getMixer(info);
-			mixers.add(mixer);
+		//System.out.println(speakerPortsWithVolumeControl.size());
+		try {
+			
+			for(int i = 0; i < speakerPortsWithVolumeControl.size() ;i++)
+			{
+				Port port = speakerPortsWithVolumeControl.get(i);
+				port.open();
+				if(port.isControlSupported(FloatControl.Type.VOLUME))
+				{
+					FloatControl volume = (FloatControl)port.getControl(FloatControl.Type.VOLUME);
+					volume.setValue(volumeLevel);
+				}
+				port.close();
+
+			}
+		} catch (LineUnavailableException e) {
+			return;
 		}
-		return mixers;
+	}
+	
+	public static float getVolume()
+	{
+		try {
+
+			for(int i = 0; i < speakerPortsWithVolumeControl.size() ;i++)
+			{
+				Port port = speakerPortsWithVolumeControl.get(i);
+				port.open();
+				if(port.isControlSupported(FloatControl.Type.VOLUME))
+				{
+					FloatControl volume = (FloatControl)port.getControl(FloatControl.Type.VOLUME);
+					return volume.getValue();
+				}
+				port.close();
+
+			}
+		} catch (LineUnavailableException e) {
+			return 0.0f;
+		}
 		
+		return 0.0f;
 	}
 	
-	private static List<Line> getAvailableOutputLines(Mixer mixer)
-	{
-		return getAvailableLines(mixer,mixer.getSourceLineInfo());
-	}
-	
-	private static List<Line> getAvailableLines(Mixer mixer, Line.Info[] lineInfos)
-	{
-		List<Line> lines = new ArrayList<Line>(lineInfos.length);
-		for(Line.Info lineInfo : lineInfos)
-		{
-			Line line;
-			line = getLineIfAvailable(mixer,lineInfo);
-			if(line != null) lines.add(line);
-		}
-		return lines;
-	}
-	
-	private static Line getLineIfAvailable(Mixer mixer, Line.Info lineInfo)
-	{
-		try
-		{
-			return mixer.getLine(lineInfo);
-		}catch(LineUnavailableException ex)
-		{
-			return null;
-		}
-	}
 	
 	
 }

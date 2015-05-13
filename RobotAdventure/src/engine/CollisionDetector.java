@@ -57,7 +57,7 @@ public class CollisionDetector
 	
 	private void SATCheck(Polygon a,Polygon b)
 	{
-		System.out.println("sat");
+		//System.out.println("sat");
 	}
 
 }
