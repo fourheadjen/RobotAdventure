@@ -46,6 +46,11 @@ public class Vector {
 		return Math.abs((x*a.y)-(y*a.x));
 	}
 	
+	public double vectorMagnitude()
+	{
+		return Math.sqrt((x*x)+(y*y));
+	}
+	
 	public Vector vectorRotate(double degrees,Vector axis)//take another look at this to simplify the vector math
 	{
 		double tempX=this.x-axis.x;
@@ -59,14 +64,29 @@ public class Vector {
 		return new Vector(tempX*cs-tempY*sn+axis.x,tempX*sn+tempY*cs+axis.y);
 	}
 	
-	public int X()
+	public double vectorDistance(Vector a)
+	{
+		return Math.sqrt(Math.pow(a.x-x, 2)+Math.pow(a.y-y, 2));
+	}
+	
+	public int XPoint()
 	{
 		return (int)Math.round(x);
 	}
 	
-	public int Y()
+	public int YPoint()
 	{
 		return (int)Math.round(y);
+	}
+	
+	public double XExact()
+	{
+		return x;
+	}
+	
+	public double YExact()
+	{
+		return y;
 	}
 
 }
