@@ -24,10 +24,10 @@ public class SliderBar{
 	{
 		if(RobotFrame.isMaximized())		
 		{
-			 if(bounds.contains(x / RobotCanvas.xRatio, y / RobotCanvas.yRatio))
+			 if(slider.bounds.contains(x / RobotCanvas.xRatio, y / RobotCanvas.yRatio))
 				return true; 
 		}else
-			if(bounds.contains(x,y))
+			if(slider.bounds.contains(x,y))
 				return true;
 			
 		return false;
@@ -70,30 +70,33 @@ public class SliderBar{
 			return value;
 		}
 		
-		public boolean isMouseOver(int x, int y)
+		public boolean isMouseOver(double x, double y)
 		{
-			if(RobotFrame.isMaximized())		
-			{
-				 if(bounds.contains(x / RobotCanvas.xRatio, y / RobotCanvas.yRatio))
-					return true; 
-			}else
-				if(bounds.contains(x,y))
-					return true;
+			if(bounds.contains(x,y))
+				return true;
 				
 			return false;
 		}
 		
 		public void update(int x)
 		{
-			if(x - bounds.x < 0)
+			if(RobotFrame.isMaximized())
 			{
-				value = Math.max(min,value-1);
-				bounds.x = Math.max(0,bounds.x - updateIncrement);
-			}
-			else
+				bounds.x = (int)((2 * x / RobotCanvas.xRatio - bounds.width) / 2.0);
+				if(bounds.x < bar.bounds.x)
+					bounds.x = bar.bounds.x;
+				if(bounds.x + bounds.width > bar.bounds.x + bar.bounds.width)
+					bounds.x = bar.bounds.x + bar.bounds.width - bounds.width;
+				
+				value = (bounds.x - bar.bounds.x + min)/ updateIncrement;
+			}else
 			{
-				value = Math.min(max, value+1);
-				bounds.x = Math.min(bar.bounds.x + bar.bounds.width - bounds.width,bounds.x +updateIncrement);
+				bounds.x = (2 * x - bounds.width) / 2;
+				if(bounds.x < bar.bounds.x)
+					bounds.x = bar.bounds.x;
+				if(bounds.x + bounds.width > bar.bounds.x + bar.bounds.width)
+					bounds.x = bar.bounds.x + bar.bounds.width - bounds.width;
+				value = (bounds.x - bar.bounds.x + min)/ updateIncrement;
 			}
 		}
 		
