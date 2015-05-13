@@ -45,6 +45,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 				if(bar != null && bar.isMouseOver(p.x, p.y))
 				{
 					bar.getSlider().update(p.x);
+					bar.onUpdate();
 				}
 
 			}
