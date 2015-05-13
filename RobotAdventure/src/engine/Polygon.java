@@ -2,13 +2,12 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.security.SignatureException;
 
 
 public class Polygon
 {
 	
-	private double theta=0;
+	//private double theta=0;
 	private double area=-1;
 	
 	private Vector[] corners;
@@ -65,7 +64,7 @@ public class Polygon
 		Vector axis=new Vector();
 		if(points==null)
 		{
-			this.theta+=angle;
+			//this.theta+=angle;
 			axis=this.getCenter();
 		}
 		else
@@ -84,15 +83,6 @@ public class Polygon
 		{
 			corners[i]=corners[i].vectorAdd(pos);
 		}
-	}
-	
-	public void draw(Graphics g)
-	{
-		g.setColor(Color.BLACK);
-		int i=0;
-		for(;i<corners.length-1;i++)
-			g.drawLine(corners[i].X(), corners[i].Y(), corners[i+1].X(), corners[i+1].Y());
-		g.drawLine(corners[i].X(), corners[i].Y(), corners[0].X(), corners[0].Y());
 	}
 	
 	public void calculateArea()
@@ -120,6 +110,56 @@ public class Polygon
 	public Vector[] getCorners()
 	{
 		return corners;
+	}
+	
+	public double getHighestX()
+	{
+		double n=corners[0].XExact();
+		for(int i=1;i<corners.length;i++)
+			if(n<corners[i].XExact())
+				n=corners[i].XExact();
+		return n;
+	}
+	
+	public double getHighestY()
+	{
+		double n=corners[0].YExact();
+		for(int i=1;i<corners.length;i++)
+			if(n<corners[i].YExact())
+				n=corners[i].YExact();
+		return n;
+	}
+	
+	public double getLowestX()
+	{
+		double n=corners[0].XExact();
+		for(int i=1;i<corners.length;i++)
+			if(n>corners[i].XExact())
+				n=corners[i].XExact();
+		return n;
+	}
+	
+	public double getLowestY()
+	{
+		double n=corners[0].YExact();
+		for(int i=1;i<corners.length;i++)
+			if(n>corners[i].YExact())
+				n=corners[i].YExact();
+		return n;
+	}
+	
+	public void tick()
+	{
+		
+	}
+	
+	public void render(Graphics g)
+	{
+		g.setColor(Color.BLACK);
+		int i=0;
+		for(;i<corners.length-1;i++)
+			g.drawLine(corners[i].XPoint(), corners[i].YPoint(), corners[i+1].XPoint(), corners[i+1].YPoint());
+		g.drawLine(corners[i].XPoint(), corners[i].YPoint(), corners[0].XPoint(), corners[0].YPoint());
 	}
 
 }

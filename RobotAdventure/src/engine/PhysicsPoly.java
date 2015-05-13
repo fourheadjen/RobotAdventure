@@ -10,11 +10,11 @@ public class PhysicsPoly extends Polygon
 	private Vector acceleration;
 	private Vector velocity;
 	
-	private double torque;
+	private double angularVelocity;
 	private double inertiaAboutCenter;
 	
 	private double mass;
-	private double dampingC;
+	//private double dampingC;
 	private double dragC;
 
 	/*public PhysicsPoly(int x, int y, int width, int height, double theta, Vector velocity, double torque, double mass, double dragC) {
@@ -31,7 +31,7 @@ public class PhysicsPoly extends Polygon
 		this.torque=torque;
 	}*/
 	
-	public PhysicsPoly(int[] x,int[] y,double theta,Vector velocity,double torque,double mass,double dragC)
+	public PhysicsPoly(int[] x,int[] y,double theta,Vector velocity,double angularVelocity,double mass,double dragC)
 	{
 		super(x,y,theta);
 		if(velocity==null)
@@ -39,7 +39,7 @@ public class PhysicsPoly extends Polygon
 		else
 			this.velocity=velocity;
 		this.acceleration=new Vector();
-		this.torque=torque;
+		this.angularVelocity=angularVelocity;
 		this.mass=mass;
 		this.dragC=dragC;
 		calculateInertiaRelativeToCentroid();
@@ -80,9 +80,19 @@ public class PhysicsPoly extends Polygon
 		
 	}
 	
+	public double getMomentum()
+	{
+		return mass*velocity.vectorMagnitude();
+	}
+	
+	public double getAngularMomentum(Vector axis)
+	{
+		return getInertiaRelativeTo(axis)*angularVelocity;
+	}
+	
 	public void render(Graphics g)
 	{
-		super.draw(g);
+		super.render(g);
 	}
 
 	public void tick()
@@ -99,7 +109,7 @@ public class PhysicsPoly extends Polygon
 		//check collision here and apply any needed forces??? or adjust momentum instead but less accurate
 		
 		//rotation??
-		super.rotate(torque,null);
+		super.rotate(angularVelocity,null);
 		//System.out.println(new Vector(2,2).vectorCross(new Vector(2,4)));
 		
 		//Verlet integration finished
