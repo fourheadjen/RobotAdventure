@@ -3,16 +3,17 @@ package state;
 import handler.MouseHandler;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 
+import constants.RobotImageLoader;
 import utilities.RobotFont;
+import utilities.Utility;
 import button.SliderBar;
 import button.SliderBar.SLIDERID;
 
 public class SettingPage extends MenuPage {
 
-	private SliderBar bar;
-	
 	public SettingPage(MENUPAGEID id) {
 		super(id);
 		 
@@ -23,7 +24,7 @@ public class SettingPage extends MenuPage {
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

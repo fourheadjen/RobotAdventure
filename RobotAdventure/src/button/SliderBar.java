@@ -6,14 +6,18 @@ import handler.AudioHandler;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 
 import utilities.RobotFont;
+import constants.RobotImageLoader;
 
 public class SliderBar{
 
 	private Rectangle bounds;
 	private Slider slider;
+	private static final Image sliderImage = RobotImageLoader.SLIDER_SLIDER;
+	private static final Image image = RobotImageLoader.SLIDER_BAR;
 	
 	public SliderBar(int x, int y, int width, int height, int min, int max,SLIDERID id)
 	{
@@ -58,7 +62,8 @@ public class SliderBar{
 	public void render(Graphics g)
 	{
 		g.setColor(Color.BLACK);
-		g.drawRect(bounds.x,bounds.y, bounds.width, bounds.height);
+//		g.drawRect(bounds.x,bounds.y, bounds.width, bounds.height);
+		g.drawImage(image,bounds.x, bounds.y,bounds.width,bounds.height,null);
 		slider.render(g);
 		RobotFont.drawString(slider.min+"", g, bounds.x - RobotFont.getFontWidth(slider.min+"")-4, bounds.y+bounds.height/2-8);
 		RobotFont.drawString(slider.max+"",g,bounds.x + bounds.width +  4,  bounds.y+bounds.height/2-8);
@@ -152,7 +157,8 @@ public class SliderBar{
 		public void render(Graphics g)
 		{
 			g.setColor(Color.CYAN);
-			g.drawRect(bounds.x,bounds.y, bounds.width, bounds.height);
+//			g.drawRect(bounds.x,bounds.y, bounds.width, bounds.height);
+			g.drawImage(sliderImage,bounds.x, bounds.y,bounds.width,bounds.height,null);
 		}
 		
 		public SLIDERID getID()

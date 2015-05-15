@@ -1,5 +1,7 @@
 package game;
 
+import handler.WindowHandler;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -19,6 +21,8 @@ public class RobotFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setFocusable(false); //so we can just click and press on canvas
+		windowHandler = new WindowHandler();
+		addComponentListener(windowHandler);
 		//setResizable(false);
 		init();
 	}
@@ -51,6 +55,8 @@ public class RobotFrame extends JFrame {
 	{
 		return GAME_SIZE == GAME_FULLSCREEN_SIZE;
 	}
+	
+	private WindowHandler windowHandler;
 	
 	private RobotCanvas robotCanvas;
 	private Thread gameloop;
