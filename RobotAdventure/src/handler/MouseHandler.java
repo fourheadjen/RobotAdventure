@@ -27,6 +27,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 		mouse = new Point(-1,-1);
 	}
 	
+	private SliderBar selectedBar;
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Point p = e.getPoint();
@@ -40,12 +42,17 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			if(menu.getCurrentPageID() == MENUPAGEID.SETTINGS)
 			{
 				SettingPage settings = (SettingPage)menu.getCurrentPage();
-				SliderBar bar = settings.getSelectedSlider();
 				
-				if(bar != null && bar.isMouseOver(p.x, p.y))
+				if(selectedBar == null)
 				{
-					bar.getSlider().update(p.x);
-					bar.onUpdate();
+					selectedBar = settings.getSelectedSlider();
+				}
+				
+				
+				if(selectedBar != null)
+				{
+					selectedBar.getSlider().update(p.x);
+					selectedBar.onUpdate();
 				}
 
 			}
@@ -153,7 +160,26 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+		Point p = e.getPoint();
+		mouse = e.getPoint();
+		switch(canvasReference.getManager().getCurrentState())
+		{
+		case MENU:
 
+			Menu menu = (Menu)canvasReference.getManager().getCurrentGameState();
+
+			if(menu.getCurrentPageID() == MENUPAGEID.SETTINGS)
+			{
+				SettingPage settings = (SettingPage)menu.getCurrentPage();
+				
+				if(selectedBar != null)
+				{
+					selectedBar = null;
+				}
+			}
+			break;
+		}
 	}
 
 	/////

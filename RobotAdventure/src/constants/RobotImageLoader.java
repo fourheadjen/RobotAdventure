@@ -19,4 +19,6 @@ public class RobotImageLoader {
 	public static final Image SETTINGS_IMAGE = Utility.loadImage(button + "settings_button.png");
 	public static final Image EXIT_IMAGE = Utility.loadImage(button + "quit_button.png");
 	public static final Image BACK_IMAGE = Utility.loadImage(button + "back_button.png");
+	public static final Image SLIDER_BAR = Utility.loadImage(button + "slider_back.png");
+	public static final Image SLIDER_SLIDER = Utility.loadImage(button + "slider_slider.png");
 }
