@@ -12,7 +12,6 @@ public class Gameplay extends GameState {
 
 	public Gameplay(STATE stateID,GameStateManager ref) {
 		super(stateID,ref);
-		AudioHandler.stopAllSound();
 	}
 
 	@Override

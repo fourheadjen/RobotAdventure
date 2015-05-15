@@ -2,15 +2,13 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.security.SignatureException;
 
 
 public class Polygon
 {
 	
-	private double theta=0;
+	//private double theta=0;
 	private double area=-1;
-	private double inertiaAboutCenter;
 	
 	private Vector[] corners;
 
@@ -30,9 +28,8 @@ public class Polygon
 		corners=new Vector[xPoints.length];
 		for(int i=0;i<xPoints.length;i++)
 			corners[i]=new Vector(xPoints[i],yPoints[i]);
-		recalculateArea();
+		calculateArea();
 		rotate(theta,null);
-		recalculateInertiaRelativeToCentroid();
 	}
 	
 	public Vector getCenter()//uses the summation equation for finding the centroid of a non-self-intersecting closed polygon
@@ -62,39 +59,12 @@ public class Polygon
 		return centroid;//.vectorScale(1.0/corners.length);
 	}
 	
-	public void recalculateInertiaRelativeToCentroid()
-	{
-		double mag;
-		double top=0;
-		double bot=0;
-		int i=0;
-		for(;i<corners.length-1;i++)
-		{
-			mag=corners[i].vectorSub(corners[0]).vectorLengthCross(corners[i+1].vectorSub(corners[0]));
-			top+=mag*(corners[i].vectorSub(corners[0]).vectotDot(corners[i].vectorSub(corners[0]))+corners[i].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0]))+corners[i+1].vectorSub(corners[0]).vectotDot(corners[i+1].vectorSub(corners[0])));
-			bot+=mag;
-		}
-
-		//mag=(corners[0].vectorCross(corners[i]));
-		//top+=mag*(corners[0].vectotDot(corners[0])+corners[0].vectotDot(corners[i])+corners[i].vectotDot(corners[i]));
-		//bot+=mag;
-		
-		//System.out.println(sum/12);
-		
-		inertiaAboutCenter=((top/bot)/6000);
-	}
-	
-	private double getInertiaRelativeTo(Vector pointOfAxis)
-	{
-		return inertiaAboutCenter;
-	}
-	
 	public void rotate(double angle,Vector[] points)
 	{
 		Vector axis=new Vector();
 		if(points==null)
 		{
-			this.theta+=angle;
+			//this.theta+=angle;
 			axis=this.getCenter();
 		}
 		else
@@ -115,16 +85,7 @@ public class Polygon
 		}
 	}
 	
-	public void draw(Graphics g)
-	{
-		g.setColor(Color.BLACK);
-		int i=0;
-		for(;i<corners.length-1;i++)
-			g.drawLine(corners[i].X(), corners[i].Y(), corners[i+1].X(), corners[i+1].Y());
-		g.drawLine(corners[i].X(), corners[i].Y(), corners[0].X(), corners[0].Y());
-	}
-	
-	public void recalculateArea()
+	public void calculateArea()
 	{
 		//area of polygon: A=(.5)((x0*y1+x1*y2+x2*y0)-(y0*x1+y1*x2+y2*x0))
 		double sum=0;
@@ -144,6 +105,61 @@ public class Polygon
 	public double getArea()
 	{
 		return area;
+	}
+	
+	public Vector[] getCorners()
+	{
+		return corners;
+	}
+	
+	public double getHighestX()
+	{
+		double n=corners[0].XExact();
+		for(int i=1;i<corners.length;i++)
+			if(n<corners[i].XExact())
+				n=corners[i].XExact();
+		return n;
+	}
+	
+	public double getHighestY()
+	{
+		double n=corners[0].YExact();
+		for(int i=1;i<corners.length;i++)
+			if(n<corners[i].YExact())
+				n=corners[i].YExact();
+		return n;
+	}
+	
+	public double getLowestX()
+	{
+		double n=corners[0].XExact();
+		for(int i=1;i<corners.length;i++)
+			if(n>corners[i].XExact())
+				n=corners[i].XExact();
+		return n;
+	}
+	
+	public double getLowestY()
+	{
+		double n=corners[0].YExact();
+		for(int i=1;i<corners.length;i++)
+			if(n>corners[i].YExact())
+				n=corners[i].YExact();
+		return n;
+	}
+	
+	public void tick()
+	{
+		
+	}
+	
+	public void render(Graphics g)
+	{
+		g.setColor(Color.BLACK);
+		int i=0;
+		for(;i<corners.length-1;i++)
+			g.drawLine(corners[i].XPoint(), corners[i].YPoint(), corners[i+1].XPoint(), corners[i+1].YPoint());
+		g.drawLine(corners[i].XPoint(), corners[i].YPoint(), corners[0].XPoint(), corners[0].YPoint());
 	}
 
 }

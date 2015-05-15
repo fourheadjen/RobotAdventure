@@ -1,5 +1,6 @@
 package game;
 
+import handler.AudioHandler;
 import handler.KeyHandler;
 import handler.MouseHandler;
 
@@ -8,13 +9,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import state.GameStateManager;
 import utilities.RobotFont;
-import engine.Vector;
+import engine.CollisionDetector;
 import engine.PhysicsPoly;
+import engine.Polygon;
+import engine.Vector;
 import entity.PhysicsRect;
-import entity.PhysicsTriangle;
 
 public class RobotCanvas extends Canvas implements Runnable {
 
@@ -30,6 +33,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		mouseHandler = new MouseHandler(this);
 		keyHandler = new KeyHandler(this);
+		audioHandler = new AudioHandler();
 		
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
@@ -45,6 +49,9 @@ public class RobotCanvas extends Canvas implements Runnable {
 		System.out.println("Xr: " + xRatio + " Yr: " + yRatio);
 		
 		this.robotFrameReference = frameRef;
+		
+		activePolys.add(testBox1);
+		activePolys.add(testBox2);
 	}
 	
 	public void tick()
@@ -52,7 +59,11 @@ public class RobotCanvas extends Canvas implements Runnable {
 		//TODO: Update things here.
 		manager.tick();
 		//testBox.tick();
-		testTriangle.tick();
+		//testTriangle.tick();
+		for(Polygon p:activePolys)
+			p.tick();
+		
+		collisions.broadCheck(activePolys);
 	
 		if(first)
 		{
@@ -78,7 +89,9 @@ public class RobotCanvas extends Canvas implements Runnable {
 		//TODO: Draw stuff here	
 		manager.render(b);
 		//testBox.render(b);
-		testTriangle.render(b);
+		//testTriangle.render(b);
+		for(Polygon p:activePolys)
+			p.render(b);
 		
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(buffer, 0, 0,RobotFrame.GAME_WIDTH, RobotFrame.GAME_HEIGHT, null);
@@ -171,14 +184,19 @@ public class RobotCanvas extends Canvas implements Runnable {
 	
 	private KeyHandler keyHandler;
 	private MouseHandler mouseHandler;
+	private AudioHandler audioHandler;
 	
 	private GameStateManager manager;
 	
 	private RobotFrame robotFrameReference;
 	
-	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
-	private PhysicsPoly testTriangle=new PhysicsTriangle(200,200,200,400,400,400,30, null, 5, 50, 1.05);
+	private CollisionDetector collisions=new CollisionDetector();
 	
+	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
+	//private PhysicsPoly testTriangle=new PhysicsTriangle(200,200,200,400,400,400,30, null, 5, 10, 1.05);
+	private ArrayList<Polygon> activePolys=new ArrayList<Polygon>();
+	private PhysicsPoly testBox1=new PhysicsRect(0,0,200,200,30,new Vector(5,0),1,500,1.05);
+	private PhysicsPoly testBox2=new PhysicsRect(275,0,200,200,0,null,0,500,1.05);
 	
 	
 }

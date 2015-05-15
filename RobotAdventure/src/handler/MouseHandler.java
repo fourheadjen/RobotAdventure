@@ -2,15 +2,19 @@ package handler;
 
 import game.RobotCanvas;
 import game.RobotFrame;
+import handler.AudioHandler.SOUND;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import state.MENUPAGEID;
 import state.Menu;
 import state.STATE;
+import state.SettingPage;
 import button.FauxButton;
+import button.SliderBar;
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
@@ -25,6 +29,30 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		Point p = e.getPoint();
+		mouse = e.getPoint();
+		switch(canvasReference.getManager().getCurrentState())
+		{
+		case MENU:
+
+			Menu menu = (Menu)canvasReference.getManager().getCurrentGameState();
+
+			if(menu.getCurrentPageID() == MENUPAGEID.SETTINGS)
+			{
+				SettingPage settings = (SettingPage)menu.getCurrentPage();
+				SliderBar bar = settings.getSelectedSlider();
+				
+				if(bar != null && bar.isMouseOver(p.x, p.y))
+				{
+					bar.getSlider().update(p.x);
+					bar.onUpdate();
+				}
+
+			}
+			break;
+		}
+
+		
 
 	}
 
@@ -74,12 +102,18 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 					case STARTGAME:
 						
 						menu.getGameStateManager().setCurrentState(STATE.GAMEPLAY);
-						
+						AudioHandler.stopSound(SOUND.MENU_MUSIC);
 						break;
 					case EXIT:
+						AudioHandler.stopAllSound();
+						AudioHandler.playSound(SOUND.EXIT);
+						try{Thread.sleep(3000);}catch(Exception ex){} //lets sound play
 						System.exit(0);
 						break;
-					default: //how to play or settings
+					case SETTINGS: //how to play or settings
+					case HOW_TO_PLAY:
+					case BACK:
+						AudioHandler.playSound(SOUND.MENU_SELECT);
 						menu.changePage(button.getID());
 						break;
 					}
