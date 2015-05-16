@@ -43,8 +43,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		buffer = new BufferedImage(BUFFER_WIDTH,BUFFER_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		
-		xRatio = ((double)RobotFrame.GAME_FULLSCREEN_SIZE.width)/BUFFER_WIDTH;
-		yRatio = ((double)RobotFrame.GAME_FULLSCREEN_SIZE.height)/BUFFER_HEIGHT;
+		xRatio = 1;//((double)RobotFrame.GAME_FULLSCREEN_SIZE.width)/BUFFER_WIDTH;
+		yRatio = 1;//((double)RobotFrame.GAME_FULLSCREEN_SIZE.height)/BUFFER_HEIGHT;
 		
 		System.out.println("Xr: " + xRatio + " Yr: " + yRatio);
 		
@@ -116,8 +116,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 				{
 					tick();
 					gameTimer.restart();
-					render();
 				}
+				render();
 			}
 		}
 	}
@@ -150,7 +150,11 @@ public class RobotCanvas extends Canvas implements Runnable {
 		return robotFrameReference;
 	}
 
-
+	public void updateDimension(int width, int height) {
+		
+		setSize(width,height);
+		
+	}
 
 
 	/*
@@ -197,6 +201,5 @@ public class RobotCanvas extends Canvas implements Runnable {
 	private ArrayList<Polygon> activePolys=new ArrayList<Polygon>();
 	private PhysicsPoly testBox1=new PhysicsRect(0,0,200,200,30,new Vector(5,0),1,500,1.05);
 	private PhysicsPoly testBox2=new PhysicsRect(275,0,200,200,0,null,0,500,1.05);
-	
-	
+
 }
