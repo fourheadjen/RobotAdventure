@@ -9,7 +9,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class FauxButton {
+public class FauxButton implements MouseOverable{
 
 	private Rectangle bounds;
 	private Image image;
@@ -32,8 +32,8 @@ public class FauxButton {
 	{
 		boolean is = false;
 		
-		if(RobotFrame.isMaximized())		
-		{
+//		if(RobotFrame.isMaximized())		
+//		{
 			 if(bounds.contains(x / RobotCanvas.xRatio, y / RobotCanvas.yRatio))
 			 {
 				 is = selected = true;
@@ -42,16 +42,17 @@ public class FauxButton {
 				 selected  = false;
 			 }
 				 
-		}else
-			if(bounds.contains(x,y))
-			{
-				is = selected = true;
-				
-			}else
-			{
-				selected = false;
-			}
-		
+//		}
+//		else
+//			if(bounds.contains(x,y))
+//			{
+//				is = selected = true;
+//				
+//			}else
+//			{
+//				selected = false;
+//			}
+//		
 		return is;
 	}
 	
