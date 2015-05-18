@@ -10,6 +10,8 @@ public class PhysicsPoly extends Polygon
 	private Vector acceleration;
 	private Vector velocity;
 	
+	int i;
+	
 	private double angularVelocity;
 	private double inertiaAboutCenter;
 	
@@ -51,7 +53,7 @@ public class PhysicsPoly extends Polygon
 		double mag;
 		double top=0;
 		double bot=0;
-		int i=0;
+		i=0;
 		for(;i<corners.length-1;i++)
 		{
 			mag=corners[i].vectorSub(corners[0]).vectorLengthCross(corners[i+1].vectorSub(corners[0]));

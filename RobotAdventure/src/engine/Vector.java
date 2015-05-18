@@ -61,7 +61,12 @@ public class Vector {
 		double cs=Math.cos(Math.toRadians(degrees));
 		double sn=Math.sin(Math.toRadians(degrees));
 		
-		return new Vector(tempX*cs-tempY*sn+axis.x,tempX*sn+tempY*cs+axis.y);
+		return new Vector(tempX*cs-tempY*sn+axis.x,tempX*sn+tempY*cs+axis.y);//garbage stuff?
+	}
+	
+	public Vector getNormal()
+	{
+		return new Vector(y,-x).vectorScale(1/vectorMagnitude());//check for garbage issues later
 	}
 	
 	public double vectorDistance(Vector a)
