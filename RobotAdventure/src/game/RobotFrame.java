@@ -21,7 +21,8 @@ public class RobotFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setFocusable(false); //so we can just click and press on canvas
-		windowHandler = new WindowHandler();
+		Toolkit.getDefaultToolkit().setDynamicLayout(false);
+		windowHandler = new WindowHandler(this);
 		addComponentListener(windowHandler);
 		//setResizable(false);
 		init();
@@ -47,8 +48,76 @@ public class RobotFrame extends JFrame {
 	
 	public void updateDimension()
 	{
-		GAME_WIDTH = (int) getSize().getWidth();
-		GAME_HEIGHT = (int) getSize().getHeight();
+		//setSize(GAME_SIZE);
+		if(isMaximized())
+		{
+			GAME_SIZE = GAME_WINDOWED_SIZE;
+			
+		}
+		else
+		{
+			GAME_SIZE = getSize();
+			
+			setLocationRelativeTo(null);
+		}
+		
+		GAME_HEIGHT = GAME_SIZE.height;
+		GAME_WIDTH = GAME_SIZE.width;
+		RobotCanvas.xRatio = GAME_WIDTH / (double)RobotCanvas.BUFFER_WIDTH;
+		RobotCanvas.yRatio = GAME_HEIGHT / (double)RobotCanvas.BUFFER_HEIGHT;
+		
+		//System.out.println(RobotCanvas.xRatio + " :: " + RobotCanvas.yRatio);
+		//System.out.println(RobotCanvas.xRatio + " -- " + RobotCanvas.yRatio);
+
+	}
+/*	
+	public void updateDimension(int width, int height)
+	{
+		GAME_WIDTH = width;
+		GAME_HEIGHT = height;
+		if(robotCanvas != null)
+			robotCanvas.updateDimension(GAME_WIDTH,GAME_HEIGHT);
+		setSize(GAME_WIDTH,GAME_HEIGHT);
+	}
+	
+	public void updateDimensionW(int width)
+	{
+		updateDimension(width, (int)getSize().getHeight());
+	}
+	
+	public void updateDimensionH(int height)
+	{
+		updateDimension((int)getSize().getWidth(),height);
+	}
+	
+	public void snapBack(int xRatio, int yRatio)
+	{
+		double xRatiod = (xRatio == 0) ? .5 : xRatio;
+		double yRatiod = (xRatio == 0) ? .5 : yRatio;
+		
+		GAME_WIDTH = (int) (GAME_SIZE.width * xRatiod);
+		GAME_HEIGHT = (int) (GAME_SIZE.height * yRatiod);
+		GAME_SIZE.width = GAME_WIDTH;
+		GAME_SIZE.height = GAME_HEIGHT;
+		
+		if(robotCanvas != null)
+			robotCanvas.updateDimension(GAME_WIDTH,GAME_HEIGHT);
+		setSize(GAME_SIZE);
+	}
+	*/
+	
+	public static Dimension getMaximizedSize()
+	{
+		Dimension size;
+		
+		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+		
+		int maxX = width / 16;
+		int maxY = height / 9;
+		
+		return new Dimension(maxX * 16, maxY * 9);
+		
 	}
 	
 	public static boolean isMaximized()
@@ -61,8 +130,10 @@ public class RobotFrame extends JFrame {
 	private RobotCanvas robotCanvas;
 	private Thread gameloop;
 	
+	
 	public static final Dimension GAME_WINDOWED_SIZE = new Dimension(16<<6,9<<6);
-	public static final Dimension GAME_FULLSCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	public static final Dimension GAME_MINIMUM_SIZE = GAME_WINDOWED_SIZE;
+	public static final Dimension GAME_FULLSCREEN_SIZE = getMaximizedSize();//Toolkit.getDefaultToolkit().getScreenSize();
 	public static Dimension GAME_SIZE = GAME_WINDOWED_SIZE;
 	public static int GAME_WIDTH = GAME_SIZE.width;
 	public static int GAME_HEIGHT = GAME_SIZE.height;
