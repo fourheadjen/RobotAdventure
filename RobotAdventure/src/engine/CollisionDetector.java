@@ -15,6 +15,9 @@ public class CollisionDetector
 	Vector[] axes1;
 	Vector[] axes2;
 	
+	Vector[] corners1;
+	Vector[] corners2;
+	
 	Projection p1=new Projection();
 	Projection p2=new Projection();
 	
@@ -56,8 +59,7 @@ public class CollisionDetector
 						itr.remove();
 					else
 					{
-						if(SATCheck(poly.get(n), poly.get(current)))
-							FindPointOfCollision();
+						SATCheck(poly.get(n), poly.get(current));
 					}
 				}
 			}
@@ -111,17 +113,23 @@ public class CollisionDetector
 			}
 		}
 		System.out.println(minimal.XExact()+" "+minimal.YExact()+"   "+overlap);
+		FindPointOfCollision(a,b);
 		return true;
 	}
 	
-	private void FindPointOfCollision()
+	private void FindPointOfCollision(Polygon a,Polygon b)
 	{
-		
+		stepOne(a,b);
 	}
 	
-	private void stepOne()
+	private void stepOne(Polygon a,Polygon b)
 	{
-		//for()
+		corners1=a.getCorners();
+		corners2=b.getCorners();
+		for(i=0;i<a.getCount();i++)
+		{
+			
+		}
 	}
 
 }

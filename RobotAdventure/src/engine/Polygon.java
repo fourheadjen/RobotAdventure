@@ -160,9 +160,16 @@ public class Polygon
 		for(i=0;i<count-1;i++)
 		{
 			axes[i]=corners[i].vectorSub(corners[i+1]).getNormal();
+			//axes[i]=corners[i].getNormal();
 		}
 		axes[i]=corners[i].vectorSub(corners[0]).getNormal();
+		//axes[i]=corners[i].getNormal();
 		return axes;
+	}
+	
+	public int getCount()
+	{
+		return count;
 	}
 	
 	public void tick()
