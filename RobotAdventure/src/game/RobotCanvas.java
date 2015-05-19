@@ -18,6 +18,7 @@ import engine.PhysicsPoly;
 import engine.Polygon;
 import engine.Vector;
 import entity.PhysicsRect;
+import entity.PhysicsTriangle;
 
 public class RobotCanvas extends Canvas implements Runnable {
 
@@ -43,8 +44,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 		
 		buffer = new BufferedImage(BUFFER_WIDTH,BUFFER_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		
-		xRatio = ((double)RobotFrame.GAME_FULLSCREEN_SIZE.width)/BUFFER_WIDTH;
-		yRatio = ((double)RobotFrame.GAME_FULLSCREEN_SIZE.height)/BUFFER_HEIGHT;
+		xRatio = 1;//((double)RobotFrame.GAME_FULLSCREEN_SIZE.width)/BUFFER_WIDTH;
+		yRatio = 1;//((double)RobotFrame.GAME_FULLSCREEN_SIZE.height)/BUFFER_HEIGHT;
 		
 		System.out.println("Xr: " + xRatio + " Yr: " + yRatio);
 		
@@ -116,8 +117,8 @@ public class RobotCanvas extends Canvas implements Runnable {
 				{
 					tick();
 					gameTimer.restart();
-					render();
 				}
+				render();
 			}
 		}
 	}
@@ -150,7 +151,11 @@ public class RobotCanvas extends Canvas implements Runnable {
 		return robotFrameReference;
 	}
 
-
+	public void updateDimension(int width, int height) {
+		
+		setSize(width,height);
+		
+	}
 
 
 	/*
@@ -172,7 +177,7 @@ public class RobotCanvas extends Canvas implements Runnable {
 	public static double xRatio;
 	public static double yRatio;
 	
-	public static final double gravity=10;
+	public static final double gravity=0;
 	
 	public static final double playerWeight=30;
 	public static final double playerDragC=1;
@@ -191,12 +196,13 @@ public class RobotCanvas extends Canvas implements Runnable {
 	private RobotFrame robotFrameReference;
 	
 	private CollisionDetector collisions=new CollisionDetector();
-	
-	//private PhysicsPoly testBox=new PhysicsRect(500, 10, 100, 100, 30, null, 1, 50, 9.05);
-	//private PhysicsPoly testTriangle=new PhysicsTriangle(200,200,200,400,400,400,30, null, 5, 10, 1.05);
 	private ArrayList<Polygon> activePolys=new ArrayList<Polygon>();
-	private PhysicsPoly testBox1=new PhysicsRect(0,0,200,200,30,new Vector(5,0),1,500,1.05);
-	private PhysicsPoly testBox2=new PhysicsRect(275,0,200,200,0,null,0,500,1.05);
+
+	private PhysicsPoly testBox1=new PhysicsRect(0,0,200,200,30,new Vector(5,0),0,500,1.05);
+	private PhysicsPoly testBox2=new PhysicsTriangle(500,100, 200, 275, 275, 275, 30, null, 0, 50, 1.05);
 	
-	
+
+	//private PhysicsPoly testBox1=new PhysicsRect(0,0,200,200,30,new Vector(5,0),1,500,1.05);
+	//private PhysicsPoly testBox2=new PhysicsRect(275,0,200,200,0,null,0,500,1.05);
+
 }

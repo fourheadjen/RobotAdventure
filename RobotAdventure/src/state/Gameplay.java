@@ -25,7 +25,6 @@ public class Gameplay extends GameState {
 		// TODO Auto-generated method stub
 		g.setColor(Color.YELLOW);
 		g.fillRect(0, 0, RobotCanvas.BUFFER_WIDTH, RobotCanvas.BUFFER_HEIGHT);
-
 		RobotFont.drawString("GamePlay stuff goes here!", g, 100, 100);
 	}
 

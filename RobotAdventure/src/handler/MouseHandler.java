@@ -14,6 +14,8 @@ import state.Menu;
 import state.STATE;
 import state.SettingPage;
 import button.FauxButton;
+import button.MouseOverable;
+import button.MultiStateButton;
 import button.SliderBar;
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
@@ -26,6 +28,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 		canvasReference = reference;
 		mouse = new Point(-1,-1);
 	}
+	
+	private SliderBar selectedBar;
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -40,12 +44,19 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			if(menu.getCurrentPageID() == MENUPAGEID.SETTINGS)
 			{
 				SettingPage settings = (SettingPage)menu.getCurrentPage();
-				SliderBar bar = settings.getSelectedSlider();
 				
-				if(bar != null && bar.isMouseOver(p.x, p.y))
+				if(selectedBar == null)
 				{
-					bar.getSlider().update(p.x);
-					bar.onUpdate();
+					MouseOverable mo = settings.getSelectedButton();
+					if(mo instanceof SliderBar)
+						selectedBar = (SliderBar)mo;
+				}
+				
+				
+				if(selectedBar != null)
+				{
+					selectedBar.getSlider().update(p.x);
+					selectedBar.onUpdate();
 				}
 
 			}
@@ -91,34 +102,81 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 				
 				Menu menu = (Menu)canvasReference.getManager().getCurrentGameState();
 				
-				FauxButton button = menu.getSelectedButton();
-				
-				if(button != null)
+				if(menu.getCurrentPageID() == null)
 				{
-					//System.out.println(button);
+					FauxButton button = menu.getSelectedButton();
 					
-					switch(button.getID())
+					if(button != null)
 					{
-					case STARTGAME:
+						//System.out.println(button);
 						
-						menu.getGameStateManager().setCurrentState(STATE.GAMEPLAY);
-						AudioHandler.stopSound(SOUND.MENU_MUSIC);
-						break;
-					case EXIT:
-						AudioHandler.stopAllSound();
-						AudioHandler.playSound(SOUND.EXIT);
-						try{Thread.sleep(3000);}catch(Exception ex){} //lets sound play
-						System.exit(0);
-						break;
-					case SETTINGS: //how to play or settings
-					case HOW_TO_PLAY:
-					case BACK:
-						AudioHandler.playSound(SOUND.MENU_SELECT);
-						menu.changePage(button.getID());
-						break;
+						switch(button.getID())
+						{
+						case STARTGAME:
+							
+							menu.getGameStateManager().setCurrentState(STATE.GAMEPLAY);
+							AudioHandler.stopSound(SOUND.MENU_MUSIC);
+							break;
+						case EXIT:
+							AudioHandler.stopAllSound();
+							AudioHandler.playSound(SOUND.EXIT);
+							try{Thread.sleep(3000);}catch(Exception ex){} //lets sound play
+							System.exit(0);
+							break;
+						case SETTINGS: //how to play or settings
+						case HOW_TO_PLAY:
+						case BACK:
+							AudioHandler.playSound(SOUND.MENU_SELECT);
+							menu.changePage(button.getID());
+							break;
+						}
+						
+					}
+				}else
+				{				
+					FauxButton button = menu.getSelectedButton();
+					
+					if(button != null)
+					{
+						//System.out.println(button);
+						
+						switch(button.getID())
+						{
+						case BACK:
+							AudioHandler.playSound(SOUND.MENU_SELECT);
+							menu.changePage(button.getID());
+							break;
+						}
+						
+						return;
+						
 					}
 					
+					switch(menu.getCurrentPageID())
+					{
+					case SETTINGS:
+						
+						SettingPage settings = (SettingPage)menu.getCurrentPage();
+						
+						MouseOverable mo = settings.getSelectedButton();
+						
+						if(mo != null)
+						{
+							if(mo instanceof MultiStateButton)
+							{
+								if(mo.isMouseOver(p.x, p.y));
+								{
+									((MultiStateButton)mo).changeState();
+								}
+							}
+						}
+						
+						
+						
+						break;
+					}
 				}
+				
 				
 			}
 			else if(e.getButton() == MouseEvent.BUTTON3)
@@ -153,7 +211,26 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+		Point p = e.getPoint();
+		mouse = e.getPoint();
+		switch(canvasReference.getManager().getCurrentState())
+		{
+		case MENU:
 
+			Menu menu = (Menu)canvasReference.getManager().getCurrentGameState();
+
+			if(menu.getCurrentPageID() == MENUPAGEID.SETTINGS)
+			{
+				SettingPage settings = (SettingPage)menu.getCurrentPage();
+				
+				if(selectedBar != null)
+				{
+					selectedBar = null;
+				}
+			}
+			break;
+		}
 	}
 
 	/////

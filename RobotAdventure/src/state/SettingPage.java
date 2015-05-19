@@ -6,24 +6,24 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import utilities.RobotFont;
+import button.MouseOverable;
+import button.MultiStateButton;
 import button.SliderBar;
 import button.SliderBar.SLIDERID;
 
 public class SettingPage extends MenuPage {
 
-	private SliderBar bar;
-	
 	public SettingPage(MENUPAGEID id) {
 		super(id);
 		 
-		barList.add(new SliderBar(100, 100, 200, 50, 0, 100,SLIDERID.VOLUME));
-		barList.add( new SliderBar(500, 100, 200, 50, -10, 10,SLIDERID.OTHER));
+		buttonList.add(new SliderBar(100, 100, 200, 50, 0, 100,SLIDERID.VOLUME));
+		buttonList.add(new SliderBar(500, 100, 200, 50, -10, 10,SLIDERID.OTHER));
+		buttonList.add(new MultiStateButton(200,300,200,50,50,100,150,200));
 	}
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -31,19 +31,18 @@ public class SettingPage extends MenuPage {
 		// TODO Auto-generated method stub
 		RobotFont.drawString("SETTINGS GO HERE!", g, 200, 200);
 		back.render(g);
-		for(SliderBar bar : barList)
+		for(MouseOverable bar : buttonList)
 			bar.render(g);
 	}
 	
-	public SliderBar getSelectedSlider() {
-		for(int i = 0; i < barList.size(); i++)
+	public MouseOverable getSelectedButton() {
+		for(int i = 0; i < buttonList.size(); i++)
 		{
-			if(barList.get(i).isMouseOver(MouseHandler.mouse.x, MouseHandler.mouse.y))
-				return barList.get(i);
+			if(buttonList.get(i).isMouseOver(MouseHandler.mouse.x, MouseHandler.mouse.y))
+				return buttonList.get(i);
 		}
 		return null;
 	}
 	
-	private ArrayList<SliderBar> barList = new ArrayList<SliderBar>();
-
+	private ArrayList<MouseOverable> buttonList = new ArrayList<MouseOverable>();
 }

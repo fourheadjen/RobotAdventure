@@ -7,10 +7,15 @@ import java.awt.Graphics;
 public class Polygon
 {
 	
+	int i;
+	
 	//private double theta=0;
 	private double area=-1;
 	
 	private Vector[] corners;
+	protected Vector[] axes;//extend to the shapes implemented already for parallel
+	
+	protected int count;
 
 	/*public Polygon(int x,int y,int width,int height,double theta)
 	{	
@@ -26,10 +31,12 @@ public class Polygon
 	public Polygon(int[] xPoints,int[] yPoints,double theta)
 	{
 		corners=new Vector[xPoints.length];
-		for(int i=0;i<xPoints.length;i++)
+		axes=new Vector[xPoints.length];
+		for(i=0;i<xPoints.length;i++)
 			corners[i]=new Vector(xPoints[i],yPoints[i]);
 		calculateArea();
 		rotate(theta,null);
+		count=corners.length;
 	}
 	
 	public Vector getCenter()//uses the summation equation for finding the centroid of a non-self-intersecting closed polygon
@@ -37,9 +44,9 @@ public class Polygon
 		Vector centroid=new Vector(0,0);
 		double signedArea=0;
 		double partialSignedArea=0;
-		int i=0;
+		i=0;
 		
-		for(;i<corners.length-1;i++)
+		for(;i<count-1;i++)
 		{
 			partialSignedArea=corners[i].vectorCross(corners[i+1]);
 			signedArea+=partialSignedArea;
@@ -54,9 +61,9 @@ public class Polygon
 		centroid=centroid.vectorScale(1.0/(6*signedArea));
 		
 		//System.out.println(centroid.X()+" "+centroid.Y());
-		//for(int i=0;i<corners.length;i++)
+		//for(i=0;i<count;i++)
 			//centroid=centroid.vectorAdd(corners[i]);
-		return centroid;//.vectorScale(1.0/corners.length);
+		return centroid;//.vectorScale(1.0/count);
 	}
 	
 	public void rotate(double angle,Vector[] points)
@@ -73,13 +80,13 @@ public class Polygon
 		}
 		//System.out.println(center.X()+"-"+center.Y());
 		
-		for(int i=0;i<corners.length;i++)
+		for(i=0;i<count;i++)
 			corners[i]=corners[i].vectorRotate(angle, axis);
 	}
 	
 	public void move(Vector pos)
 	{
-		for(int i=0;i<corners.length;i++)
+		for(i=0;i<count;i++)
 		{
 			corners[i]=corners[i].vectorAdd(pos);
 		}
@@ -89,8 +96,8 @@ public class Polygon
 	{
 		//area of polygon: A=(.5)((x0*y1+x1*y2+x2*y0)-(y0*x1+y1*x2+y2*x0))
 		double sum=0;
-		int i=0;
-		for(;i<corners.length-1;i++)
+		i=0;
+		for(;i<count-1;i++)
 		{
 			sum+=corners[i].vectorCross(corners[i+1]);
 			//sum+=corners[i].X()*corners[i+1].Y();
@@ -115,7 +122,7 @@ public class Polygon
 	public double getHighestX()
 	{
 		double n=corners[0].XExact();
-		for(int i=1;i<corners.length;i++)
+		for(int i=1;i<count;i++)
 			if(n<corners[i].XExact())
 				n=corners[i].XExact();
 		return n;
@@ -124,7 +131,7 @@ public class Polygon
 	public double getHighestY()
 	{
 		double n=corners[0].YExact();
-		for(int i=1;i<corners.length;i++)
+		for(int i=1;i<count;i++)
 			if(n<corners[i].YExact())
 				n=corners[i].YExact();
 		return n;
@@ -133,7 +140,7 @@ public class Polygon
 	public double getLowestX()
 	{
 		double n=corners[0].XExact();
-		for(int i=1;i<corners.length;i++)
+		for(int i=1;i<count;i++)
 			if(n>corners[i].XExact())
 				n=corners[i].XExact();
 		return n;
@@ -142,10 +149,27 @@ public class Polygon
 	public double getLowestY()
 	{
 		double n=corners[0].YExact();
-		for(int i=1;i<corners.length;i++)
+		for(int i=1;i<count;i++)
 			if(n>corners[i].YExact())
 				n=corners[i].YExact();
 		return n;
+	}
+	
+	public Vector[] getAxes()
+	{
+		for(i=0;i<count-1;i++)
+		{
+			axes[i]=corners[i].vectorSub(corners[i+1]).getNormal();
+			//axes[i]=corners[i].getNormal();
+		}
+		axes[i]=corners[i].vectorSub(corners[0]).getNormal();
+		//axes[i]=corners[i].getNormal();
+		return axes;
+	}
+	
+	public int getCount()
+	{
+		return count;
 	}
 	
 	public void tick()
@@ -156,8 +180,8 @@ public class Polygon
 	public void render(Graphics g)
 	{
 		g.setColor(Color.BLACK);
-		int i=0;
-		for(;i<corners.length-1;i++)
+		i=0;
+		for(;i<count-1;i++)
 			g.drawLine(corners[i].XPoint(), corners[i].YPoint(), corners[i+1].XPoint(), corners[i+1].YPoint());
 		g.drawLine(corners[i].XPoint(), corners[i].YPoint(), corners[0].XPoint(), corners[0].YPoint());
 	}
